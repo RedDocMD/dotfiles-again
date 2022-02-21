@@ -1,0 +1,241 @@
+{
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter-notebook"
+    },
+    "workbench.iconTheme": "material-icon-theme",
+    "editor.fontFamily": "FiraCode Nerd Font Mono",
+    "editor.fontLigatures": true,
+    "window.menuBarVisibility": "compact",
+    "window.titleBarStyle": "custom",
+    "C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
+    "python.showStartPage": false,
+    "vim.incsearch": true,
+    "vim.hlsearch": true,
+    "vim.leader": "<Space>",
+    "vim.surround": true,
+    "vim.camelCaseMotion.enable": true,
+    "vim.highlightedyank.enable": true,
+    "vim.insertModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<C-k>"
+            ],
+            "after": [
+                "<Esc>"
+            ]
+        },
+    ],
+    "vim.normalModeKeyBindings": [
+        {
+            "before": [
+                "<leader>",
+                "w"
+            ],
+            "commands": [
+                "workbench.action.files.save",
+            ]
+        },
+        {
+            "before": [
+                "K"
+            ],
+            "commands": [
+                "editor.action.showHover",
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "p"
+            ],
+            "commands": [
+                "workbench.action.quickOpen"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                ";"
+            ],
+            "commands": [
+                "workbench.action.showAllEditors"
+            ]
+        },
+        {
+            "before": [
+                "L"
+            ],
+            "after": [
+                "$"
+            ]
+        },
+        {
+            "before": [
+                "H"
+            ],
+            "after": [
+                "^"
+            ]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<C-k>"
+            ],
+            "after": [
+                "<Esc>"
+            ]
+        },
+        {
+            "before": [
+                "<C-h>"
+            ],
+            "after": [
+                ":nohl"
+            ]
+        }
+    ],
+    "vim.visualModeKeyBindings": [
+        {
+            "before": [
+                ">"
+            ],
+            "commands": [
+                "editor.action.indentLines"
+            ]
+        },
+        {
+            "before": [
+                "<"
+            ],
+            "commands": [
+                "editor.action.outdentLines"
+            ]
+        }
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<C-k>"
+            ],
+            "after": [
+                "<Esc>"
+            ]
+        },
+        {
+            "before": [
+                "<C-h>"
+            ],
+            "after": [
+                ":nohl"
+            ]
+        }
+    ],
+    "vim.operatorPendingModeKeyBindings": [
+        {
+            "before": [
+                "L"
+            ],
+            "after": [
+                "$"
+            ]
+        },
+        {
+            "before": [
+                "H"
+            ],
+            "after": [
+                "^"
+            ]
+        },
+    ],
+    "go.toolsManagement.autoUpdate": true,
+    "haskell.formattingProvider": "stylish-haskell",
+    "clang-format.assumeFilename": ".clang-format",
+    "git.confirmSync": false,
+    "rust-analyzer.completion.addCallArgumentSnippets": false,
+    "rust-analyzer.checkOnSave.command": "clippy",
+    "workbench.colorTheme": "Dracula",
+    "redhat.telemetry.enabled": false,
+    "[c]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "editor.formatOnPaste": true,
+    "[dart]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+        "editor.rulers": [
+            80
+        ],
+        "editor.selectionHighlight": false,
+        "editor.suggest.snippetsPreventQuickSuggestions": false,
+        "editor.suggestSelection": "first",
+        "editor.tabCompletion": "onlySnippets",
+        "editor.wordBasedSuggestions": false
+    },
+    "auto-close-tag.activationOnLanguage": [
+        "markdown",
+        "xml",
+        "php",
+        "blade",
+        "ejs",
+        "jinja",
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "plaintext",
+        "markdown",
+        "vue",
+        "liquid",
+        "erb",
+        "lang-cfml",
+        "cfml",
+        "HTML (EEx)",
+        "HTML (Eex)",
+        "plist"
+    ],
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false,
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
+    "rust-client.engine": "rust-analyzer",
+    "remote.SSH.showLoginTerminal": true,
+    "remote.SSH.useLocalServer": false,
+    "remote.SSH.remotePlatform": {
+        "65.1.182.122": "linux"
+    },
+    "cSpell.userWords": [
+        "codebases",
+        "comparision",
+        "concat",
+        "deallocation",
+        "dknite",
+        "eval",
+        "getset",
+        "LLVM",
+        "Majumder",
+        "Malloc",
+        "modellable",
+        "Modellling",
+        "pseudocode",
+        "repr",
+        "thiserror"
+    ],
+    "ruby.useLanguageServer": true,
+    "terminal.integrated.commandsToSkipShell": [
+        "language-julia.interrupt"
+    ],
+    "julia.symbolCacheDownload": true,
+    "julia.enableTelemetry": true,
+    "[cpp]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "cSpell.language": "en-GB",
+    "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
+    "vscode-neovim.neovimInitVimPaths.linux": "/home/dknite/.config/nvim/init.vim",
+    "editor.formatOnSave": true
+}
