@@ -155,6 +155,7 @@
     "clang-format.assumeFilename": ".clang-format",
     "git.confirmSync": false,
     "rust-analyzer.completion.addCallArgumentSnippets": false,
+    "rust-analyzer.checkOnSave.command": "clippy",
     "redhat.telemetry.enabled": false,
     "[c]": {
         "editor.defaultFormatter": "xaver.clang-format"
@@ -205,7 +206,8 @@
     "remote.SSH.useLocalServer": false,
     "remote.SSH.remotePlatform": {
         "65.1.182.122": "linux",
-        "192.168.29.108": "linux"
+        "192.168.29.108": "linux",
+        "192.168.29.46": "linux"
     },
     "cSpell.userWords": [
         "codebases",
@@ -240,5 +242,6 @@
     "telemetry.telemetryLevel": "off",
     "editor.fontSize": 15,
     "workbench.colorTheme": "Material Theme Darker High Contrast",
-    "mesonbuild.configureOnOpen": false
+    "mesonbuild.configureOnOpen": false,
+    "zigLanguageClient.path": "/home/dknite/.local/bin/zls"
 }
