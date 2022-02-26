@@ -22,6 +22,7 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'bkad/CamelCaseMotion'
 Plug 'chriskempson/base16-vim'
 Plug 'rhysd/vim-clang-format'
+Plug 'psliwka/vim-smoothie'
 
 " Fuzzy search
 Plug 'airblade/vim-rooter'
@@ -41,7 +42,7 @@ Plug 'ray-x/lsp_signature.nvim'
 Plug 'hrsh7th/cmp-vsnip', {'branch': 'main'}
 Plug 'hrsh7th/vim-vsnip'
 
-" Syntactic language support
+" Language support
 Plug 'cespare/vim-toml'
 Plug 'stephpy/vim-yaml'
 Plug 'rust-lang/rust.vim'
@@ -49,7 +50,9 @@ Plug 'rhysd/vim-clang-format'
 Plug 'dag/vim-fish'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
-Plug 'https://bitbucket.org/spilt/vim-peg', { 'for': 'peg' }
+" Plug 'https://bitbucket.org/spilt/vim-peg', { 'for': 'peg' }
+Plug 'ziglang/zig.vim'
+Plug 'vim-crystal/vim-crystal'
 
 " Typescript
 Plug 'pangloss/vim-javascript'
@@ -238,6 +241,15 @@ lspconfig.hls.setup {
 
 -- Pyright
 require'lspconfig'.pyright.setup{
+    on_attach = on_attach,
+    flags = {
+        debounce_text_changes = 150,
+    },
+    capabilities = capabilities,
+}
+
+-- Zls
+require'lspconfig'.zls.setup{
     on_attach = on_attach,
     flags = {
         debounce_text_changes = 150,
@@ -436,7 +448,7 @@ map <C-p> :Files<CR>
 nmap <leader>; :Buffers<CR>
 
 " Quick-save
-nmap <leader>w :w<CR>
+nmap <leader>s :w<CR>
 
 " ; as :
 nnoremap ; :
@@ -488,7 +500,7 @@ if has('nvim')
 endif
 
 " <leader>s for Rg search
-noremap <leader>s :Rg
+noremap <leader>r :Rg
 let g:fzf_layout = { 'down': '~20%' }
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
