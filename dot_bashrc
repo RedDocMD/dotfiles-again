@@ -93,3 +93,5 @@ BASE16_SHELL="$HOME/software/base16-shell/"
 . "$HOME/.cargo/env"
 
 # [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+source /home/dknite/.config/broot/launcher/bash/br
