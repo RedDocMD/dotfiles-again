@@ -22,6 +22,7 @@ if command -v bat > /dev/null
 end
 set -x RANGER_LOAD_DEFAULT_RC FALSE
 set -x pager less
+set -x NEOVIDE_MULTIGRID true
 
 # exa for ls
 if command -v exa > /dev/null
@@ -67,7 +68,7 @@ abbr -a paci "pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro s
 # PATH
 set -px PATH $HOME/.local/bin
 set -px PATH $HOME/.cargo/bin
-set -px PATH $HOME/software/node-v14.17.3-linux-x64/bin
+set -px PATH $HOME/software/node/bin
 set -px PATH $HOME/software/platform-tools
 set -px PATH $HOME/software/julia-1.6.2/bin
 set -px PATH $HOME/fuchsia/.jiri_root/bin
@@ -79,6 +80,7 @@ if test -e ~/fuchsia/scripts/fx-env.fish
 end
 set -px PATH $HOME/.linuxbrew/bin $HOME/.linuxbrew/sbin
 set -px PATH $HOME/.ghcup/bin
+set -px PATH $HOME/software/flutter/bin
 
 # Homebrew
 set -x HOMEBREW_PREFIX "/home/dknite/.linuxbrew"
@@ -104,4 +106,10 @@ end
 if command -v zoxide > /dev/null
     zoxide init fish | source
     abbr -a cd z
+end
+
+# Make sure this is at the end
+if test -e $HOME/.rvm
+    set -px PATH $HOME/.rvm/bin
+    rvm default
 end

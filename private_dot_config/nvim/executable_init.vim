@@ -1,6 +1,6 @@
 " Set the leader
 let mapleader = "\<Space>"
-set guifont="Hasklug NF":h11
+set guifont=Iosevka:h12
 set shell=/bin/bash
 
 " Plugins
@@ -53,6 +53,7 @@ Plug 'plasticboy/vim-markdown'
 " Plug 'https://bitbucket.org/spilt/vim-peg', { 'for': 'peg' }
 Plug 'ziglang/zig.vim'
 Plug 'vim-crystal/vim-crystal'
+Plug 'NoahTheDuke/vim-just'
 
 " Typescript
 Plug 'pangloss/vim-javascript'
@@ -332,7 +333,7 @@ set completeopt=menuone,noinsert,noselect
 " delays and poor user experience.
 set updatetime=300
 " Give more space for displaying messages.
-set cmdheight=2
+" set cmdheight=2
 
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
@@ -549,3 +550,5 @@ au Filetype rust set colorcolumn=100
 " Also follow Haskell code styles
 au Filetype haskell source ~/.config/nvim/scripts/spacetab.vim
 au Filetype haskell set colorcolumn=100
+
+let g:neovide_remember_window_size = v:true

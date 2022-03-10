@@ -244,5 +244,12 @@
     "editor.fontSize": 15,
     "workbench.colorTheme": "Nord",
     "mesonbuild.configureOnOpen": false,
-    "zigLanguageClient.path": "/home/dknite/.local/bin/zls"
+    "zigLanguageClient.path": "/home/dknite/.local/bin/zls",
+    "editor.linkedEditing": true,
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[django-html]": {
+        "editor.defaultFormatter": "HookyQR.beautify"
+    }
 }
