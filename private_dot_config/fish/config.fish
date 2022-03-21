@@ -23,6 +23,9 @@ end
 set -x RANGER_LOAD_DEFAULT_RC FALSE
 set -x pager less
 set -x NEOVIDE_MULTIGRID true
+if command -v chromium > /dev/null
+    set -x CHROME_EXECUTABLE chromium
+end
 
 # exa for ls
 if command -v exa > /dev/null

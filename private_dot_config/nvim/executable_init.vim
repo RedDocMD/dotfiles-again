@@ -78,6 +78,7 @@ set termguicolors
 set background=dark
 let base16colorspace=256
 let g:base16_shell_path="~/software/base16-shell/scripts/"
+" colorscheme base16-nord
 colorscheme base16-gruvbox-dark-hard
 syntax on
 hi Normal ctermbg=NONE
