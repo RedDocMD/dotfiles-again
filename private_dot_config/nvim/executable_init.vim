@@ -78,8 +78,11 @@ set termguicolors
 set background=dark
 let base16colorspace=256
 let g:base16_shell_path="~/software/base16-shell/scripts/"
-" colorscheme base16-nord
-colorscheme base16-gruvbox-dark-hard
+if exists('g:neovide')
+    colorscheme base16-nord
+else
+    colorscheme base16-gruvbox-dark-hard
+endif
 syntax on
 hi Normal ctermbg=NONE
 " Brighter comments
@@ -334,7 +337,7 @@ set completeopt=menuone,noinsert,noselect
 " delays and poor user experience.
 set updatetime=300
 " Give more space for displaying messages.
-" set cmdheight=2
+set cmdheight=2
 
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
@@ -551,5 +554,9 @@ au Filetype rust set colorcolumn=100
 " Also follow Haskell code styles
 au Filetype haskell source ~/.config/nvim/scripts/spacetab.vim
 au Filetype haskell set colorcolumn=100
+
+" Same for C++
+au Filetype cpp source ~/.config/nvim/scripts/spacetab.vim
+au Filetype cpp set colorcolumn=100
 
 let g:neovide_remember_window_size = v:true
