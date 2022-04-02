@@ -1,6 +1,6 @@
 " Set the leader
 let mapleader = "\<Space>"
-set guifont="Hasklug NF":h11
+set guifont="Iosevka":h13
 set shell=/bin/bash
 
 " Plugins
@@ -77,7 +77,8 @@ set termguicolors
 set background=dark
 let base16colorspace=256
 let g:base16_shell_path="~/software/base16-shell/scripts/"
-colorscheme base16-gruvbox-dark-hard
+" colorscheme base16-gruvbox-dark-hard
+colorscheme base16-nord
 syntax on
 hi Normal ctermbg=NONE
 " Brighter comments
