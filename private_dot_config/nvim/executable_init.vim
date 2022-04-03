@@ -290,13 +290,14 @@ let g:secure_modelines_allowed_items = [
 let g:lightline = {
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'modified' ] ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
       \   'right': [ [ 'lineinfo' ],
       \              [ 'percent' ],
       \              [ 'fileencoding', 'filetype' ] ],
       \ },
       \ 'component_function': {
-      \   'filename': 'LightlineFilename'
+      \   'filename': 'LightlineFilename',
+      \   'gitbranch': 'FugitiveHead'
       \ },
       \ }
 function! LightlineFilename()
@@ -386,7 +387,6 @@ set undofile
 set nofoldenable
 
 set mouse=a " Enable mouse usage (all modes) in terminals
-set shortmess+=c " don't give |ins-completion-menu| messages.
 "set nospell
 
 "" Wrapping options
@@ -435,7 +435,6 @@ set diffopt+=indent-heuristic
 set colorcolumn=80 " and give me a colored column
 set showcmd " Show (partial) command in status line.
 set mouse=a " Enable mouse usage (all modes) in terminals
-set shortmess+=c " don't give |ins-completion-menu| messages.
 
 " Show those damn hidden characters
 " Verbose: set listchars=nbsp:¬,eol:¶,extends:»,precedes:«,trail:•
@@ -505,7 +504,7 @@ if has('nvim')
 	sunmap ge
 endif
 
-" <leader>s for Rg search
+" <leader>r for Rg search
 noremap <leader>r :Rg
 let g:fzf_layout = { 'down': '~20%' }
 command! -bang -nargs=* Rg
