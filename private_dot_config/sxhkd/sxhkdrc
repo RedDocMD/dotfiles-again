@@ -8,15 +8,11 @@ super + shift + Return
 
 # start ranger
 super + a
-    alacritty -e ranger
+    alacritty -e nnn
 
 # lock screen
 ctrl + alt + l
     slock
-
-# program launcher
-#super + @space
-	#rofi -show run
 
 # toggle ulauncher
 super + p
@@ -104,7 +100,7 @@ super + {o,i}
 
 # focus or send to the given desktop
 super + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} '^{1-9,10}'
+	bspc {desktop -f,node -d} '{1-9,10}'
 
 #
 # preselect

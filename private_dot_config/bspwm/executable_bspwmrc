@@ -1,12 +1,12 @@
-#! /bin/sh
+#!/bin/sh
 
-sxhkd &
-ulauncher --hide-window --no-window-shadow &
+SXHKD_SHELL=/bin/bash sxhkd &
+ulauncher --no-window &
 nm-applet &
 xsetroot -cursor_name left_ptr &
 
-bspc monitor HDMI-0 -d I II III IV V VI VII VIII IX X
-# bspc monitor eDP-1-1 -d VI VII VIII IX X
+bspc monitor HDMI-0 -d 1 2 3 4 5
+bspc monitor eDP-1-1 -d 6 7 8 9 10
 
 bspc config border_width         2
 bspc config window_gap	         2
@@ -20,15 +20,25 @@ bspc config gapless_monocle      true
 bspc rule -a firefox:Toolkit sticky=on state=floating
 bspc rule -a "Brave-browser" monitor='eDP-1-1'
 bspc rule -a "Google-chrome" monitor='eDP-1-1'
-bspc rule -a polybar border=off manage=off
+bspc rule -a "Chromium" monitor='eDP-1-1'
+#bspc rule -a polybar border=off manage=off
+#bspc rule -a lemonbar border=off layer=below
+bspc rule -a trayer border=off layer=above
 bspc rule -a ulauncher focus=on
 bspc rule -a "JetBrains Toolbox" state=floating
 bspc rule -a skype state=floating
+# https://github.com/baskerville/bspwm/issues/291
+# only works due to https://github.com/dasJ/spotifywm
+bspc rule -a Spotify desktop='0' state=pseudo_tiled
+
 
 picom &
 nitrogen --restore &
-$HOME/.config/polybar/launch.sh &
 wmname LG3D &
-udiskie &
-
-xrandr --output HDMI-0 --auto --output eDP-1-1 --auto --right-of HDMI-0
+~/.config/lemonbar/lemonstart.sh &
+trayer --edge top --align right --widthtype pixel --width 95 \
+	--heighttype pixel --height 20 --transparent true --alpha 50 --tint 0x18191a\
+	--SetDockType true &
+dunst &
+blueman-applet &
+volctl &

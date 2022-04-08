@@ -26,6 +26,9 @@ set -x NEOVIDE_MULTIGRID true
 if command -v chromium > /dev/null
     set -x CHROME_EXECUTABLE chromium
 end
+if command -v nnn > /dev/null
+    set -x NNN_PLUG 'f:finder;t:nmount;v:imgview'
+end
 
 # exa for ls
 if command -v exa > /dev/null

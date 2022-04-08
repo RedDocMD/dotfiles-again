@@ -217,6 +217,7 @@ lspconfig.clangd.setup {
     flags = {
         debounce_text_changes = 150,
     },
+    cmd = { 'clangd', '--header-insertion=never' },
     capabilities = capabilities,
 }
 
