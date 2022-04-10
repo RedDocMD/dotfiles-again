@@ -27,7 +27,7 @@ if command -v chromium > /dev/null
     set -x CHROME_EXECUTABLE chromium
 end
 if command -v nnn > /dev/null
-    set -x NNN_PLUG 'f:finder;t:nmount;v:imgview'
+    set -x NNN_PLUG 'f:finder;t:nmount;v:imgview;g:dragdrop'
 end
 
 # exa for ls

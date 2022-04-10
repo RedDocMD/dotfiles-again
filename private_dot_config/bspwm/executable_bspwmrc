@@ -36,7 +36,7 @@ picom &
 nitrogen --restore &
 wmname LG3D &
 ~/.config/lemonbar/lemonstart.sh &
-trayer --edge top --align right --widthtype pixel --width 95 \
+trayer --edge top --align right --width 10 \
 	--heighttype pixel --height 20 --transparent true --alpha 50 --tint 0x18191a\
 	--SetDockType true &
 dunst &
