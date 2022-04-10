@@ -4,6 +4,7 @@ import           XMonad
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.DynamicProperty
 import           XMonad.Hooks.EwmhDesktops   (ewmh, ewmhFullscreen)
+import           XMonad.Hooks.ManageDocks
 import           XMonad.Hooks.ManageHelpers  (isDialog)
 import           XMonad.Hooks.StatusBar
 import           XMonad.Hooks.StatusBar.PP
@@ -27,6 +28,7 @@ myAdditionalKeys = [ ("M-p", spawn "ulauncher-toggle")
                    , ("M-C-t", namedScratchpadAction myScratchpads "term")
                    , ("M1-C-f", sendMessage $ JumpToLayout "Full")
                    , ("M1-C-t", sendMessage $ JumpToLayout "Tall")
+                   , ("M-b", sendMessage ToggleStruts)
                    ] ++
                    [ (otherModMasks ++ "M-" ++ [key], action tag)
                      | (tag, key) <- zip myWorkspaces "1234567890"
@@ -36,7 +38,7 @@ myAdditionalKeys = [ ("M-p", spawn "ulauncher-toggle")
 
 myRemoveKeys = [ "M-S-q" ]
 
-myLayout = tiled ||| Mirror tiled ||| Full
+myLayout = avoidStruts . spacing 7 $ tiled ||| Mirror tiled ||| Full
     where
         tiled = Tall nmaster delta ratio
         nmaster = 1
@@ -116,11 +118,17 @@ myManageHook = composeAll
       ]
       <+> scratchpadManageHook
 
+myStatusBar = statusBarProp "xmobar ~/.config/xmobar/xmobarrc" (pure myXmobarPP)
+
 main = xmonad
+    . withSB myStatusBar
     . ewmhFullscreen
     . ewmh
-    . withEasySB (statusBarProp "xmobar ~/.config/xmobar/xmobarrc" (pure myXmobarPP)) defToggleStrutsKey
+    . docks
     $ myConfig
+
+
+myEventHook = dynamicPropertyChange "WM_CLASS" scratchpadManageHook <+> handleEventHook def
 
 myConfig = def { borderWidth        = 2
            , terminal           = myTerminal
@@ -128,11 +136,10 @@ myConfig = def { borderWidth        = 2
            , normalBorderColor  = "#cccccc"
            , focusedBorderColor = "#cd8b00"
            , startupHook        = myStartupHook
-           , layoutHook         = spacing 7 $ myLayout
+           , layoutHook         = myLayout
            , workspaces         = myWorkspaces
            , manageHook         = myManageHook
-           , handleEventHook    = dynamicPropertyChange "WM_CLASS" scratchpadManageHook
-                                  <+> handleEventHook def
+           , handleEventHook    = myEventHook
            }
            `removeKeysP` myRemoveKeys
            `additionalKeysP` myAdditionalKeys
