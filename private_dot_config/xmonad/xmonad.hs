@@ -5,7 +5,7 @@ import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.DynamicProperty
 import           XMonad.Hooks.EwmhDesktops   (ewmh, ewmhFullscreen)
 import           XMonad.Hooks.ManageDocks
-import           XMonad.Hooks.ManageHelpers  (isDialog)
+import           XMonad.Hooks.ManageHelpers  (isDialog, doSink)
 import           XMonad.Hooks.StatusBar
 import           XMonad.Hooks.StatusBar.PP
 import           XMonad.Layout.Spacing       (spacing)
@@ -109,13 +109,30 @@ myScratchpads = [ NS "spotify" spotifySpawn spotifyQuery spotifyManage
 
 scratchpadManageHook = namedScratchpadManageHook myScratchpads
 
-myManageHook :: ManageHook
+manageZoomHook =
+    composeAll $
+      [ (className =? zoomClassName) <&&> shouldFloat <$> title --> doFloat
+      , (className =? zoomClassName) <&&> shouldSink <$> title  --> doSink
+      ]
+    where
+        zoomClassName = "zoom"
+        tileTitles =
+            [ "Zoom - Free Account"
+            , "Zoom - Licensed Account"
+            , "Zoom"
+            , "Zoom Meeting"
+            ]
+        shouldFloat = flip notElem tileTitles
+        shouldSink  = flip elem tileTitles
+
 myManageHook = composeAll
       [ isDialog                         --> doFloat
       , className =? "Chromium"          --> doShift (myWorkspaces !! 1)
       , stringProperty "WM_NAME" =? "Firefox Developer Edition" --> doShift (myWorkspaces !! 1)
       , className =? "JetBrains Toolbox" --> doFloat
+      , className =? "Bitwarden"         --> doFloat
       ]
+      <+> manageZoomHook
       <+> scratchpadManageHook
 
 myStatusBar = statusBarProp "xmobar ~/.config/xmobar/xmobarrc" (pure myXmobarPP)
@@ -128,7 +145,11 @@ main = xmonad
     $ myConfig
 
 
-myEventHook = dynamicPropertyChange "WM_CLASS" scratchpadManageHook <+> handleEventHook def
+myEventHook = mconcat
+    [ dynamicPropertyChange "WM_CLASS" scratchpadManageHook
+    , dynamicTitle manageZoomHook
+    , handleEventHook def
+    ]
 
 myConfig = def { borderWidth        = 2
            , terminal           = myTerminal
