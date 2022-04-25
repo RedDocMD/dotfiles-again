@@ -54,6 +54,7 @@ Plug 'plasticboy/vim-markdown'
 Plug 'ziglang/zig.vim'
 Plug 'vim-crystal/vim-crystal'
 Plug 'NoahTheDuke/vim-just'
+Plug 'othree/xml.vim'
 
 " Typescript
 Plug 'pangloss/vim-javascript'
@@ -79,7 +80,8 @@ set background=dark
 let base16colorspace=256
 let g:base16_shell_path="~/software/base16-shell/scripts/"
 if exists('g:neovide')
-    colorscheme base16-nord
+    " colorscheme base16-nord
+    colorscheme base16-atelier-dune
 else
     colorscheme base16-gruvbox-dark-hard
 endif
@@ -355,7 +357,7 @@ set encoding=utf-8
 set scrolloff=2
 set noshowmode
 set hidden
-set nowrap
+" set nowrap
 set nojoinspaces
 
 let g:vim_markdown_new_list_item_indent = 0
@@ -555,8 +557,12 @@ au Filetype rust set colorcolumn=100
 au Filetype haskell source ~/.config/nvim/scripts/spacetab.vim
 au Filetype haskell set colorcolumn=100
 
-" Same for C++
-au Filetype cpp source ~/.config/nvim/scripts/spacetab.vim
-au Filetype cpp set colorcolumn=100
+" same for c++
+au filetype cpp source ~/.config/nvim/scripts/spacetab.vim
+au filetype cpp set colorcolumn=100
+
+" same for xml
+au filetype xml source ~/.config/nvim/scripts/spacetab.vim
+au filetype xml set colorcolumn=100
 
 let g:neovide_remember_window_size = v:true

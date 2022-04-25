@@ -3,7 +3,8 @@
     "*.ipynb": "jupyter-notebook"
   },
   "workbench.iconTheme": "material-icon-theme",
-  "editor.fontFamily": "Fira Code",
+  "editor.fontFamily": "Iosevka",
+  "terminal.integrated.fontFamily": "Iosevka",
   "editor.fontLigatures": true,
   "window.menuBarVisibility": "compact",
   "window.titleBarStyle": "custom",
@@ -18,78 +19,159 @@
   "vim.highlightedyank.enable": true,
   "vim.insertModeKeyBindingsNonRecursive": [
     {
-      "before": ["<C-k>"],
-      "after": ["<Esc>"]
+      "before": [
+        "<C-k>"
+      ],
+      "after": [
+        "<Esc>"
+      ]
     }
   ],
   "vim.normalModeKeyBindings": [
     {
-      "before": ["<leader>", "s"],
-      "commands": ["workbench.action.files.save"]
+      "before": [
+        "j"
+      ],
+      "after": [
+        "g",
+        "j"
+      ]
     },
     {
-      "before": ["K"],
-      "commands": ["editor.action.showHover"]
+      "before": [
+        "k"
+      ],
+      "after": [
+        "g",
+        "k"
+      ]
     },
     {
-      "before": ["<leader>", "p"],
-      "commands": ["workbench.action.quickOpen"]
+      "before": [
+        "<leader>",
+        "s"
+      ],
+      "commands": [
+        "workbench.action.files.save"
+      ]
     },
     {
-      "before": ["<leader>", ";"],
-      "commands": ["workbench.action.showAllEditors"]
+      "before": [
+        "K"
+      ],
+      "commands": [
+        "editor.action.showHover"
+      ]
     },
     {
-      "before": ["L"],
-      "after": ["$"]
+      "before": [
+        "<leader>",
+        "p"
+      ],
+      "commands": [
+        "workbench.action.quickOpen"
+      ]
     },
     {
-      "before": ["H"],
-      "after": ["^"]
+      "before": [
+        "<leader>",
+        ";"
+      ],
+      "commands": [
+        "workbench.action.showAllEditors"
+      ]
+    },
+    {
+      "before": [
+        "L"
+      ],
+      "after": [
+        "$"
+      ]
+    },
+    {
+      "before": [
+        "H"
+      ],
+      "after": [
+        "^"
+      ]
     }
   ],
   "vim.normalModeKeyBindingsNonRecursive": [
     {
-      "before": ["<C-k>"],
-      "after": ["<Esc>"]
+      "before": [
+        "<C-k>"
+      ],
+      "after": [
+        "<Esc>"
+      ]
     },
     {
-      "before": ["<C-h>"],
-      "after": [":nohl"]
+      "before": [
+        "<C-h>"
+      ],
+      "after": [
+        ":nohl"
+      ]
     }
   ],
   "vim.visualModeKeyBindings": [
     {
-      "before": [">"],
-      "commands": ["editor.action.indentLines"]
+      "before": [
+        ">"
+      ],
+      "commands": [
+        "editor.action.indentLines"
+      ]
     },
     {
-      "before": ["<"],
-      "commands": ["editor.action.outdentLines"]
+      "before": [
+        "<"
+      ],
+      "commands": [
+        "editor.action.outdentLines"
+      ]
     }
   ],
   "vim.visualModeKeyBindingsNonRecursive": [
     {
-      "before": ["<C-k>"],
-      "after": ["<Esc>"]
+      "before": [
+        "<C-k>"
+      ],
+      "after": [
+        "<Esc>"
+      ]
     },
     {
-      "before": ["<C-h>"],
-      "after": [":nohl"]
+      "before": [
+        "<C-h>"
+      ],
+      "after": [
+        ":nohl"
+      ]
     }
   ],
   "vim.operatorPendingModeKeyBindings": [
     {
-      "before": ["L"],
-      "after": ["$"]
+      "before": [
+        "L"
+      ],
+      "after": [
+        "$"
+      ]
     },
     {
-      "before": ["H"],
-      "after": ["^"]
+      "before": [
+        "H"
+      ],
+      "after": [
+        "^"
+      ]
     }
   ],
   "go.toolsManagement.autoUpdate": true,
-  "haskell.formattingProvider": "stylish-haskell",
+  "haskell.formattingProvider": "brittany",
   "clang-format.assumeFilename": ".clang-format",
   "git.confirmSync": false,
   "rust-analyzer.completion.addCallArgumentSnippets": false,
@@ -102,7 +184,9 @@
   "[dart]": {
     "editor.formatOnSave": true,
     "editor.formatOnType": true,
-    "editor.rulers": [80],
+    "editor.rulers": [
+      80
+    ],
     "editor.selectionHighlight": false,
     "editor.suggest.snippetsPreventQuickSuggestions": false,
     "editor.suggestSelection": "first",
@@ -161,7 +245,9 @@
     "thiserror"
   ],
   "ruby.useLanguageServer": true,
-  "terminal.integrated.commandsToSkipShell": ["language-julia.interrupt"],
+  "terminal.integrated.commandsToSkipShell": [
+    "language-julia.interrupt"
+  ],
   "julia.symbolCacheDownload": true,
   "julia.enableTelemetry": true,
   "[cpp]": {
@@ -173,7 +259,7 @@
   "editor.formatOnSave": true,
   "telemetry.telemetryLevel": "off",
   "editor.fontSize": 15,
-  "workbench.colorTheme": "Nord",
+  "workbench.colorTheme": "GitHub Dark",
   "mesonbuild.configureOnOpen": false,
   "zigLanguageClient.path": "/home/dknite/.local/bin/zls",
   "[json]": {
@@ -194,5 +280,14 @@
     "editorInlayHint.background": "#00000000",
     "editorInlayHint.parameterBackground": "#00000000",
     "editorInlayHint.typeBackground": "#00000000"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
   }
 }

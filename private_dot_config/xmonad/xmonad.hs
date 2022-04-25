@@ -19,7 +19,7 @@ myModMask = mod4Mask  -- Rebind Mod to Super Key
 myTerminal = "alacritty"
 
 myAdditionalKeys = [ ("M-p", spawn "ulauncher-toggle")
-                   , ("M-a", spawn "alacritty -e nnn")
+                   , ("M-a", spawn "alacritty -e ranger")
                    , ("M-M1-q", io (exitWith ExitSuccess))
                    , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+ unmute")
                    , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%- unmute")
