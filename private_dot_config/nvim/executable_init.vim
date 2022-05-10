@@ -77,8 +77,11 @@ set termguicolors
 set background=dark
 let base16colorspace=256
 let g:base16_shell_path="~/software/base16-shell/scripts/"
-" colorscheme base16-gruvbox-dark-hard
-colorscheme base16-nord
+if exists('g:neovide')
+  colorscheme base16-nord
+else
+  colorscheme base16-gruvbox-dark-hard
+endif
 syntax on
 hi Normal ctermbg=NONE
 " Brighter comments
