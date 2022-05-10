@@ -80,10 +80,10 @@ set background=dark
 let base16colorspace=256
 let g:base16_shell_path="~/software/base16-shell/scripts/"
 if exists('g:neovide')
-    " colorscheme base16-nord
     colorscheme base16-atelier-dune
 else
-    colorscheme base16-gruvbox-dark-hard
+    " colorscheme base16-gruvbox-dark-hard
+    colorscheme base16-atelier-dune
 endif
 syntax on
 hi Normal ctermbg=NONE
