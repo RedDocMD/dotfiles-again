@@ -240,7 +240,8 @@
   "remote.SSH.remotePlatform": {
     "65.1.182.122": "linux",
     "192.168.29.108": "linux",
-    "192.168.29.46": "linux"
+    "192.168.29.46": "linux",
+    "192.168.29.47": "linux"
   },
   "cSpell.userWords": [
     "codebases",

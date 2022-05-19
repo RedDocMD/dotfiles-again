@@ -1,6 +1,6 @@
 " Set the leader
 let mapleader = "\<Space>"
-set guifont="FiraCode Nerd Font Mono":h11
+set guifont=FiraCode
 
 " Plugins
 call plug#begin('~/.vim/plugged')
@@ -11,7 +11,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-sleuth'
+" Plug 'tpope/vim-sleuth'
 Plug 'airblade/vim-gitgutter'
 "Plug 'kamykn/spelunker.vim'
 
@@ -306,7 +306,7 @@ map <C-p> :Files<CR>
 nmap <leader>; :Buffers<CR>
 
 " Quick-save
-nmap <leader>w :w<CR>
+nmap <leader>s :w<CR>
 
 set mouse=a " Enable mouse usage (all modes) in terminals
 set shortmess+=c " don't give |ins-completion-menu| messages.
