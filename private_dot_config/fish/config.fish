@@ -11,6 +11,7 @@ function fish_title
     set -q argv[1]; or set argv fish
     # Looks like ~/d/fish: git log
     # or /e/apt: fish
+    echo -n "Collosus:"
     echo (fish_prompt_pwd_dir_length=1 prompt_pwd);
 end
 
@@ -109,3 +110,8 @@ end
 # Generated for envman. Do not edit.
 test -s "$HOME/.config/envman/load.fish"; and source "$HOME/.config/envman/load.fish"
 
+set -x FIDLMISC_DIR "$HOME/software/fidl-misc"
+function fidldev
+    $FIDLMISC_DIR/fidldev/fidldev.py $argv
+end
+set -x ASAN_SYMBOLIZER_PATH  "$HOME/fuchsia/prebuilt/third_party/clang/linux-x64/bin/llvm-symbolizer"

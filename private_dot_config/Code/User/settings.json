@@ -3,7 +3,7 @@
         "*.ipynb": "jupyter-notebook"
     },
     "workbench.iconTheme": "material-icon-theme",
-    "editor.fontFamily": "FiraCode Nerd Font Mono",
+    "editor.fontFamily": "Fira Code",
     "editor.fontLigatures": true,
     "window.menuBarVisibility": "compact",
     "window.titleBarStyle": "custom",
@@ -156,7 +156,7 @@
     "git.confirmSync": false,
     "rust-analyzer.completion.addCallArgumentSnippets": false,
     "rust-analyzer.checkOnSave.command": "clippy",
-    "workbench.colorTheme": "Dracula",
+    "workbench.colorTheme": "Material Theme Darker High Contrast",
     "redhat.telemetry.enabled": false,
     "[c]": {
         "editor.defaultFormatter": "xaver.clang-format"
@@ -237,5 +237,8 @@
     "cSpell.language": "en-GB",
     "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
     "vscode-neovim.neovimInitVimPaths.linux": "/home/dknite/.config/nvim/init.vim",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "rust-analyzer.inlayHints.typeHints.enable": false,
+    "rust-analyzer.inlayHints.parameterHints.enable": false,
+    "rust-analyzer.inlayHints.chainingHints.enable": false
 }
