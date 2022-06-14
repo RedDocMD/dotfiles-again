@@ -129,6 +129,7 @@ myManageHook = composeAll
       [ isDialog                         --> doFloat
       , className =? "Chromium"          --> doShift (myWorkspaces !! 1)
       , stringProperty "WM_NAME" =? "Firefox Developer Edition" --> doShift (myWorkspaces !! 1)
+      , stringProperty "WM_NAME" =? "Picture-in-Picture" --> doFloat
       , className =? "JetBrains Toolbox" --> doFloat
       , className =? "Bitwarden"         --> doFloat
       ]

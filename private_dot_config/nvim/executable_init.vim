@@ -80,10 +80,11 @@ set background=dark
 let base16colorspace=256
 let g:base16_shell_path="~/software/base16-shell/scripts/"
 if exists('g:neovide')
-    colorscheme base16-atelier-dune
+    " colorscheme base16-atelier-dune
+    colorscheme base16-nord
 else
-    " colorscheme base16-gruvbox-dark-hard
-    colorscheme base16-atelier-dune
+    colorscheme base16-gruvbox-dark-hard
+    " colorscheme base16-atelier-dune
 endif
 syntax on
 hi Normal ctermbg=NONE
@@ -259,6 +260,14 @@ require'lspconfig'.pyright.setup{
 
 -- Zls
 require'lspconfig'.zls.setup{
+    on_attach = on_attach,
+    flags = {
+        debounce_text_changes = 150,
+    },
+    capabilities = capabilities,
+}
+
+require'lspconfig'.tsserver.setup{
     on_attach = on_attach,
     flags = {
         debounce_text_changes = 150,

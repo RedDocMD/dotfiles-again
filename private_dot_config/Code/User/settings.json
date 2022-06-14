@@ -3,7 +3,7 @@
     "*.ipynb": "jupyter-notebook"
   },
   "workbench.iconTheme": "material-icon-theme",
-  "editor.fontFamily": "Iosevka",
+  "editor.fontFamily": "Fira Code",
   "terminal.integrated.fontFamily": "Iosevka",
   "editor.fontLigatures": true,
   "window.menuBarVisibility": "compact",
@@ -257,9 +257,11 @@
     "Malloc",
     "modellable",
     "Modellling",
+    "peekable",
     "pseudocode",
     "repr",
-    "thiserror"
+    "thiserror",
+    "uncurry"
   ],
   "ruby.useLanguageServer": true,
   "terminal.integrated.commandsToSkipShell": [
@@ -275,7 +277,6 @@
   "vscode-neovim.neovimInitVimPaths.linux": "/home/dknite/.config/nvim/init.vim",
   "editor.formatOnSave": true,
   "telemetry.telemetryLevel": "off",
-  "editor.fontSize": 15,
   "workbench.colorTheme": "GitHub Dark",
   "mesonbuild.configureOnOpen": false,
   "zigLanguageClient.path": "/home/dknite/.local/bin/zls",
@@ -306,5 +307,14 @@
   },
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
-  }
+  },
+  "files.associations": {
+    "*.json.golden": "json",
+    "*.rs.golden": "rust",
+    "*.cc.golden": "cpp",
+    "*.h.golden": "cpp",
+    "*.go.golden": "go",
+    "*.dart.golden": "dart",
+  },
+  "haskell.manageHLS": "GHCup",
 }
