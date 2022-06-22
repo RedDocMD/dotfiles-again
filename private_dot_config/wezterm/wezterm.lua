@@ -2,7 +2,7 @@ local wezterm = require 'wezterm';
 local table = require 'table';
 
 local tmux_keys = {
-	{key="c", mods="LEADER", action=wezterm.action{SpawnTab="CurrentPaneDomain"}},
+	{key="c", mods="LEADER", action=wezterm.action{SpawnCommandInNewTab={cwd=wezterm.home_dir}}},
 	{key="n", mods="LEADER", action=wezterm.action{ActivateTabRelative=1}},
 	{key="p", mods="LEADER", action=wezterm.action{ActivateTabRelative=-1}},
 	{key="&", mods="LEADER|SHIFT", action=wezterm.action{CloseCurrentTab={confirm=true}}},

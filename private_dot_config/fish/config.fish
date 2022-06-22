@@ -38,12 +38,6 @@ if command -v exa > /dev/null
     abbr -a lla exa -la
 end
 
-# source autojump
-set --local AUTOJUMP_PATH /usr/share/autojump/autojump.fish
-if test -e $AUTOJUMP_PATH
-    source $AUTOJUMP_PATH
-end
-
 # git abbreviations
 abbr -a gaa git add .
 abbr -a gcam git commit -am
@@ -112,6 +106,21 @@ end
 if command -v zoxide > /dev/null
     zoxide init fish | source
     abbr -a cd z
+end
+
+# Actiavte venv if present, on cd
+function __venv_hook --on-variable PWD
+    set --local venv_path "$PWD/.venv"
+    if test -d $venv_path && test -e $venv_path
+        source "$venv_path/bin/activate.fish"
+    else
+        functions -q deactivate &> /dev/null
+        and deactivate
+    end
+end
+set --local venv_path "$PWD/.venv"
+if test -d $venv_path && test -e $venv_path
+    source "$venv_path/bin/activate.fish"
 end
 
 # Make sure this is at the end
