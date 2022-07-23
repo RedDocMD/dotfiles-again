@@ -277,7 +277,6 @@
   "vscode-neovim.neovimInitVimPaths.linux": "/home/dknite/.config/nvim/init.vim",
   "editor.formatOnSave": true,
   "telemetry.telemetryLevel": "off",
-  "workbench.colorTheme": "GitHub Dark",
   "mesonbuild.configureOnOpen": false,
   "zigLanguageClient.path": "/home/dknite/.local/bin/zls",
   "[json]": {
@@ -317,4 +316,8 @@
     "*.dart.golden": "dart",
   },
   "haskell.manageHLS": "GHCup",
+  "workbench.colorTheme": "Ayu Mirage Bordered",
+  "git.mergeEditor": true,
+  "window.commandCenter": true,
+  "zls.path": "/home/dknite/.local/bin/zls",
 }

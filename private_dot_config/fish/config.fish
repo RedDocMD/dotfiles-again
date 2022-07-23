@@ -128,3 +128,18 @@ if test -e $HOME/.rvm
     set -px PATH $HOME/.rvm/bin
     rvm default
 end
+
+# opam configuration
+set --local opam_path "/home/dknite/.opam/opam-init/init.fish"
+if test -e $opam_path
+    source $opam_path > /dev/null 2> /dev/null; or true
+end
+
+# tere
+if command -v tere > /dev/null
+    function tere
+        set --local tere_path (which tere)
+        set --local result ($tere_path $argv)
+        [ -n "$result" ] && cd -- "$result"
+    end
+end
