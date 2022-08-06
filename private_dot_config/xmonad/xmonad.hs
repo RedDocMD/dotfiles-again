@@ -1,4 +1,6 @@
-import           Data.List                   (intercalate)
+import           Control.Monad               (forM_, join)
+import           Data.List                   (intercalate, sortBy)
+import           Data.Function               (on)
 import           System.Exit
 import           XMonad
 import           XMonad.Hooks.DynamicLog
@@ -13,6 +15,8 @@ import qualified XMonad.StackSet             as W
 import           XMonad.Util.EZConfig        (additionalKeysP, removeKeysP)
 import           XMonad.Util.Loggers
 import           XMonad.Util.NamedScratchpad
+import           XMonad.Util.NamedWindows    (getName)
+import           XMonad.Util.Run             (safeSpawn)
 import           XMonad.Util.SpawnOnce       (spawnOnce)
 
 myModMask = mod4Mask  -- Rebind Mod to Super Key
@@ -60,6 +64,10 @@ trayerCmd = intercalate
             , "--SetPartialStrut true"
             , "--SetDockType true" ]
 
+spawnPolybarLogs =
+    forM_ [".xmonad-workspace.log", ".xmonad-title-log"] $ \file ->
+        safeSpawn "mkfifo" ["/tmp/" ++ file]
+
 myStartupHook = do
      spawnOnce "ulauncher --no-window"
      spawnOnce "nitrogen --restore"
@@ -67,10 +75,12 @@ myStartupHook = do
      spawnOnce "wmname LG3D"
      spawnOnce "dunst"
      spawnOnce "blueman-applet"
-     spawnOnce "volctl"
+     -- spawnOnce "volctl"
      spawnOnce "nm-applet"
      spawnOnce "xsetroot -cursor_name left_ptr"
-     spawnOnce trayerCmd
+     spawnPolybarLogs
+     spawnOnce "/home/dknite/.config/polybar/xmonad_launch.sh"
+     -- spawnOnce trayerCmd
 
 myXmobarPP :: PP
 myXmobarPP = filterOutWsPP [scratchpadWorkspaceTag] $
@@ -139,11 +149,29 @@ myManageHook = composeAll
 myStatusBar = statusBarProp "xmobar ~/.config/xmobar/xmobarrc" (pure myXmobarPP)
 
 main = xmonad
-    . withSB myStatusBar
+--    . withSB myStatusBar
     . ewmhFullscreen
     . ewmh
     . docks
     $ myConfig
+
+
+polybarLogHook = do
+    winset <- gets windowset
+    title <- maybe (return "") (fmap show . getName) . W.peek $ winset
+    let currWs = W.currentTag winset
+    let wss = map W.tag $ W.workspaces winset
+    let wsStr = join $ map (fmt currWs) $ sort' wss
+
+    io $ appendFile "/tmp/.xmonad-title-log" (title ++ "\n")
+    io $ appendFile "/tmp/.xmonad-workspace-log" (wsStr ++ "\n")
+
+    return ()
+
+    where fmt currWs ws
+            | currWs == ws = "[" ++ ws ++ "]"
+            | otherwise    = " " ++ ws ++ " "
+          sort' = sortBy (compare `on` (!! 0))
 
 
 myEventHook = mconcat
@@ -162,6 +190,7 @@ myConfig = def { borderWidth        = 2
            , workspaces         = myWorkspaces
            , manageHook         = myManageHook
            , handleEventHook    = myEventHook
+           , logHook            = polybarLogHook
            }
            `removeKeysP` myRemoveKeys
            `additionalKeysP` myAdditionalKeys
