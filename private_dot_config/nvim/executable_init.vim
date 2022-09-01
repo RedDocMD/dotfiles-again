@@ -15,6 +15,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sleuth'
 Plug 'airblade/vim-gitgutter'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 
 " GUI plugins
 Plug 'itchyny/lightline.vim'
@@ -97,6 +98,7 @@ call Base16hi("LspSignatureActiveParameter", g:base16_gui05, g:base16_gui03, g:b
 lua << EOF
 local lspconfig = require('lspconfig')
 local cmp = require('cmp')
+util = require "lspconfig/util"
 
 cmp.setup({
   snippet = {
@@ -165,6 +167,21 @@ local on_attach = function(client, bufnr)
   })
 end
 
+function OrgImports(wait_ms)
+    local params = vim.lsp.util.make_range_params()
+    params.context = {only = {"source.organizeImports"}}
+    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, wait_ms)
+    for _, res in pairs(result or {}) do
+      for _, r in pairs(res.result or {}) do
+        if r.edit then
+          vim.lsp.util.apply_workspace_edit(r.edit, "UTF-8")
+        else
+          vim.lsp.buf.execute_command(r.command)
+        end
+      end
+    end
+end
+
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- Rust Analyzer
@@ -203,6 +220,8 @@ lspconfig.gopls.setup {
         debounce_text_changes = 150,
     },
     cmd = {'gopls', 'serve'},
+    filetypes = {"go", "gomod"},
+    root_dir = util.root_pattern("go.work", "go.mod", ".git"),
     settings = {
         gopls = {
             analyses = {
@@ -545,6 +564,10 @@ nnoremap k gk
 " Force stop LSP
 nnoremap <leader><Esc> :lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>
 
+" Chad tree
+nnoremap <leader>v <cmd>CHADopen<cr>
+nnoremap <leader>l <cmd>call setqflist([])<cr>
+
 "=========================
 " Autocommands
 "=========================
@@ -573,5 +596,11 @@ au filetype cpp set colorcolumn=100
 " same for xml
 au filetype xml source ~/.config/nvim/scripts/spacetab.vim
 au filetype xml set colorcolumn=100
+
+" same for go
+au filetype go source ~/.config/nvim/scripts/spacetab.vim
+au filetype go set colorcolumn=100
+
+autocmd BufWritePre *.go lua OrgImports(1000)
 
 let g:neovide_remember_window_size = v:true

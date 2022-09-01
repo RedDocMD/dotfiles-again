@@ -243,7 +243,8 @@
     "192.168.29.46": "linux",
     "192.168.29.47": "linux",
     "10.0.0.3": "linux",
-    "10.8.0.3": "linux"
+    "10.8.0.3": "linux",
+    "10.8.03": "linux"
   },
   "cSpell.userWords": [
     "codebases",
@@ -318,8 +319,9 @@
     "*.dart.golden": "dart",
   },
   "haskell.manageHLS": "GHCup",
-  "workbench.colorTheme": "Ayu Mirage Bordered",
+  "workbench.colorTheme": "Panda Syntax",
   "git.mergeEditor": true,
   "window.commandCenter": true,
   "zls.path": "/home/dknite/.local/bin/zls",
+  "window.zoomLevel": 1,
 }

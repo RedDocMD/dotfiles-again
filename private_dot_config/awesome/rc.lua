@@ -56,6 +56,18 @@ end
 config_dir = gears.filesystem.get_xdg_config_home()
 beautiful.init(config_dir .. "awesome/theme.lua")
 
+if screen:count() == 1 then
+    theme = beautiful.get()
+    theme.font = "Noto Sans Mono 12"
+    beautiful.init(theme)
+end
+
+for s in screen do
+    if s.outputs["eDP-1-1"] ~= nil then
+        s.padding = { bottom = 12 }
+    end
+end
+
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty"
 editor = "nvim"
@@ -106,12 +118,6 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
-for s in screen do
-    if s.outputs["eDP-1-1"] ~= nil then
-        s.padding = { bottom = 12 }
-    end
-end
-
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     set_wallpaper(s)
@@ -149,7 +155,7 @@ awful.screen.connect_for_each_screen(function(s)
 
 
     -- Add widgets to the wibox
-    if s.outputs["eDP-1-1"] ~= nil then
+    if s.outputs["eDP-1-1"] ~= nil and screen:count() > 1 then
         s.mywibox:setup {
             layout = wibox.layout.align.horizontal,
             { -- Left widgets
@@ -164,6 +170,8 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.align.horizontal,
             { -- Left widgets
                 layout = wibox.layout.fixed.horizontal,
+                spacing = 15,
+                mytextclock,
                 s.mytaglist,
                 s.mypromptbox,
             },
@@ -175,7 +183,6 @@ awful.screen.connect_for_each_screen(function(s)
                 myvolume_widget,
                 mybrightness_widget,
                 mybattery_widget,
-                mytextclock,
                 s.mylayoutbox
             }
         }
@@ -223,6 +230,8 @@ globalkeys = gears.table.join(
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
               {description = "quit awesome", group = "awesome"}),
+    awful.key({ "Control", "Mod1" }, "l", function() awful.spawn("slock") end,
+              {description = "lock screen", group = "screen"}),
 
     -- Size change
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.02)          end,
