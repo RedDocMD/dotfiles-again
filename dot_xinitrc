@@ -38,7 +38,12 @@ xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
 xrandr --output "HDMI-0" --primary --auto --output "eDP-1-1" --right-of "HDMI-0" --auto
 
-picom &
-nm-applet &
+# Set trackpad to support touch
+xinput set-prop 12 339 1
 
-exec awesome
+# picom &
+# nm-applet &
+command -v dropbox &>/dev/null && dropbox &
+#
+# exec awesome
+exec xmonad

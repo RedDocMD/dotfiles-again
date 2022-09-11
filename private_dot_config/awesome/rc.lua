@@ -5,7 +5,7 @@ local gears = require("gears")
 local awful = require("awful")
 require("awful.autofocus")
 -- Widget and layout library
-local wibox = require("wibox")
+local wibar = require("wibox")
 -- Theme handling library
 local beautiful = require("beautiful")
 -- Notification library
@@ -20,6 +20,7 @@ require("awful.hotkeys_popup.keys")
 local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
 local brightness_widget = require("awesome-wm-widgets.brightness-widget.brightness")
 local battery_widget = require("awesome-wm-widgets.battery-widget.battery")
+local mpris_widget = require("awesome-wm-widgets.mpris-widget")
 
 
 
@@ -85,12 +86,13 @@ awful.layout.layouts = {
 
 -- {{{ Wibar
 -- Create a textclock widget
-local mytextclock = wibox.widget.textclock("%a %d, %I:%M")
+local mytextclock = wibar.widget.textclock("%a %d, %I:%M")
 local myvolume_widget = volume_widget({ widget_type = "arc" })
 local mybrightness_widget = brightness_widget({ type = "arc", program = "light" })
-local mybattery_widget = battery_widget()
+local mybattery_widget = battery_widget({display_notification=true})
+local mympris_widget = mpris_widget()
 
--- Create a wibox for each screen and add it
+-- Create a wibar for each screen and add it
 local taglist_buttons = awful.button({}, 1, function(t) t:view_only() end)
 
 local tasklist_buttons = awful.button({}, 1,
@@ -146,30 +148,30 @@ awful.screen.connect_for_each_screen(function(s)
         buttons = tasklist_buttons
     }
 
-    -- Create the wibox
-    s.mywibox = awful.wibar({
+    -- Create the wibar
+    s.mywibar = awful.wibar({
         position = "top",
         screen = s,
         height = 20,
     })
 
 
-    -- Add widgets to the wibox
+    -- Add widgets to the wibar
     if s.outputs["eDP-1-1"] ~= nil and screen:count() > 1 then
-        s.mywibox:setup {
-            layout = wibox.layout.align.horizontal,
+        s.mywibar:setup {
+            layout = wibar.layout.align.horizontal,
             { -- Left widgets
-                layout = wibox.layout.fixed.horizontal,
+                layout = wibar.layout.fixed.horizontal,
                 s.mytaglist,
                 s.mypromptbox,
             },
             s.mytasklist, -- Middle widget
         }
     else
-        s.mywibox:setup {
-            layout = wibox.layout.align.horizontal,
+        s.mywibar:setup {
+            layout = wibar.layout.align.horizontal,
             { -- Left widgets
-                layout = wibox.layout.fixed.horizontal,
+                layout = wibar.layout.fixed.horizontal,
                 spacing = 15,
                 mytextclock,
                 s.mytaglist,
@@ -177,9 +179,10 @@ awful.screen.connect_for_each_screen(function(s)
             },
             s.mytasklist, -- Middle widget
             {   -- Right widget
-                layout = wibox.layout.fixed.horizontal,
+                layout = wibar.layout.fixed.horizontal,
                 spacing = 7,
-                wibox.widget.systray(),
+                wibar.widget.systray(),
+                mympris_widget,
                 myvolume_widget,
                 mybrightness_widget,
                 mybattery_widget,

@@ -94,7 +94,7 @@ BASE16_SHELL="$HOME/software/base16-shell/"
 
 # [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-source /home/dknite/.config/broot/launcher/bash/br
+[ -e "$HOME/.config/broot" ] && source /home/dknite/.config/broot/launcher/bash/br
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"

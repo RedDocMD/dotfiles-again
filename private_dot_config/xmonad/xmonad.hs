@@ -1,7 +1,12 @@
-import           Control.Monad               (forM_, join)
+import           Control.Monad               (forM_, join, mapM)
 import           Data.List                   (intercalate, sortBy)
 import           Data.Function               (on)
+import           Data.Functor                ((<&>))
+import           System.Directory
 import           System.Exit
+import           System.FilePath
+import           System.Random
+import           System.Random.Stateful
 import           XMonad
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.DynamicProperty
@@ -22,7 +27,10 @@ import           XMonad.Util.SpawnOnce       (spawnOnce)
 myModMask = mod4Mask  -- Rebind Mod to Super Key
 myTerminal = "alacritty"
 
-myAdditionalKeys = [ ("M-p", spawn "ulauncher-toggle")
+rofiCmd = "rofi -show drun -font \"Iosevka Term 12\" -icon-theme \"Papirus\" -show-icons"
+        ++ " -theme \"dracula\""
+
+myAdditionalKeys = [ ("M-p", spawn rofiCmd)
                    , ("M-a", spawn "alacritty -e ranger")
                    , ("M-M1-q", io (exitWith ExitSuccess))
                    , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+ unmute")
@@ -33,6 +41,7 @@ myAdditionalKeys = [ ("M-p", spawn "ulauncher-toggle")
                    , ("M1-C-f", sendMessage $ JumpToLayout "Full")
                    , ("M1-C-t", sendMessage $ JumpToLayout "Tall")
                    , ("M-b", sendMessage ToggleStruts)
+                   , ("M-C-r", setRandomWallpaper)
                    ] ++
                    [ (otherModMasks ++ "M-" ++ [key], action tag)
                      | (tag, key) <- zip myWorkspaces "1234567890"
@@ -51,36 +60,68 @@ myLayout = avoidStruts . spacing 7 $ tiled ||| Mirror tiled ||| Full
 
 trayerCmd = intercalate
             " "
-            [ "trayer"
+            [ "sleep 1"
+            , "&&"
+            , "trayer"
             , "--edge top"
             , "--align right"
-            , "--width 8"
-            , "--expand true"
-            , "--heighttype pixel"
-            , "--height 20"
-            , "--transparent true"
-            , "--alpha 50"
-            , "--tint 0x18191a"
+            , "--widthtype request"
+            , "--padding 6"
+            , "--SetDockType true"
             , "--SetPartialStrut true"
-            , "--SetDockType true" ]
+            , "--expand true"
+            , "--transparent true"
+            , "--alpha 0"
+            , "--tint 0x282828"
+            , "--heighttype pixel"
+            , "--height 24" ]
 
-spawnPolybarLogs =
-    forM_ [".xmonad-workspace.log", ".xmonad-title-log"] $ \file ->
-        safeSpawn "mkfifo" ["/tmp/" ++ file]
+wallpapersDirs :: [FilePath]
+wallpapersDirs = ["/usr/share/backgrounds/nordic-wallpapers/"]
+
+isImageFile :: FilePath -> Bool
+isImageFile name = extension name `elem` [".jpg", ".jpeg", ".png"]
+    where
+        extension = dropWhile (/= '.')
+
+dirFiles :: FilePath -> IO [FilePath]
+dirFiles dir =
+    getDirectoryContents dir
+        >>= mapM (canonicalizePath . (dir </>))
+        .   filter isImageFile
+
+wallpaperPaths :: IO [FilePath]
+wallpaperPaths = mapM dirFiles wallpapersDirs <&> concat
+
+randomWallpaper :: IO FilePath
+randomWallpaper = do
+    paths <- wallpaperPaths
+    rand <- uniformM globalStdGen
+    let idx = abs rand `mod` length paths
+    return $ paths !! idx
+
+getRandomWallpaperCmd :: IO String
+getRandomWallpaperCmd = do
+    wallpaper1 <- randomWallpaper
+    wallpaper2 <- randomWallpaper
+    return $ intercalate " " ["feh", "--no-fehbg", "--bg-fill", wallpaper1, wallpaper2]
+
+setRandomWallpaper :: X ()
+setRandomWallpaper = do
+    cmd <- io getRandomWallpaperCmd
+    spawn cmd
 
 myStartupHook = do
-     spawnOnce "ulauncher --no-window"
-     spawnOnce "nitrogen --restore"
      spawnOnce "picom"
      spawnOnce "wmname LG3D"
      spawnOnce "dunst"
-     spawnOnce "blueman-applet"
-     -- spawnOnce "volctl"
+     spawnOnce "dropbox"
      spawnOnce "nm-applet"
      spawnOnce "xsetroot -cursor_name left_ptr"
-     spawnPolybarLogs
-     spawnOnce "/home/dknite/.config/polybar/xmonad_launch.sh"
-     -- spawnOnce trayerCmd
+     spawn "killall trayer"
+     spawn trayerCmd
+     setRandomWallpaper
+
 
 myXmobarPP :: PP
 myXmobarPP = filterOutWsPP [scratchpadWorkspaceTag] $
@@ -149,29 +190,11 @@ myManageHook = composeAll
 myStatusBar = statusBarProp "xmobar ~/.config/xmobar/xmobarrc" (pure myXmobarPP)
 
 main = xmonad
---    . withSB myStatusBar
+    . withSB myStatusBar
     . ewmhFullscreen
     . ewmh
     . docks
     $ myConfig
-
-
-polybarLogHook = do
-    winset <- gets windowset
-    title <- maybe (return "") (fmap show . getName) . W.peek $ winset
-    let currWs = W.currentTag winset
-    let wss = map W.tag $ W.workspaces winset
-    let wsStr = join $ map (fmt currWs) $ sort' wss
-
-    io $ appendFile "/tmp/.xmonad-title-log" (title ++ "\n")
-    io $ appendFile "/tmp/.xmonad-workspace-log" (wsStr ++ "\n")
-
-    return ()
-
-    where fmt currWs ws
-            | currWs == ws = "[" ++ ws ++ "]"
-            | otherwise    = " " ++ ws ++ " "
-          sort' = sortBy (compare `on` (!! 0))
 
 
 myEventHook = mconcat
@@ -183,14 +206,13 @@ myEventHook = mconcat
 myConfig = def { borderWidth        = 2
            , terminal           = myTerminal
            , modMask            = myModMask
-           , normalBorderColor  = "#cccccc"
-           , focusedBorderColor = "#cd8b00"
+           , normalBorderColor  = "#282828"
+           , focusedBorderColor = "#8ec07c"
            , startupHook        = myStartupHook
            , layoutHook         = myLayout
            , workspaces         = myWorkspaces
            , manageHook         = myManageHook
            , handleEventHook    = myEventHook
-           , logHook            = polybarLogHook
            }
            `removeKeysP` myRemoveKeys
            `additionalKeysP` myAdditionalKeys
