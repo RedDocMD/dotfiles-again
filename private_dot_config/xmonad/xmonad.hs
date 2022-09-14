@@ -33,8 +33,12 @@ rofiCmd = "rofi -show drun -font \"Iosevka Term 12\" -icon-theme \"Papirus\" -sh
 myAdditionalKeys = [ ("M-p", spawn rofiCmd)
                    , ("M-a", spawn "alacritty -e ranger")
                    , ("M-M1-q", io (exitWith ExitSuccess))
-                   , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+ unmute")
-                   , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%- unmute")
+                   , ("<XF86AudioRaiseVolume>", spawn "amixer -q -D pulse sset Master 5%+")
+                   , ("<XF86AudioLowerVolume>", spawn "amixer -q -D pulse sset Master 5%-")
+                   , ("<XF86AudioMute>", spawn "amixer -D pulse set Master 1+ toggle")
+                   , ("<XF86AudioPlay>", spawn "playerctl play-pause")
+                   , ("<XF86AudioNext>", spawn "playerctl next")
+                   , ("<XF86AudioPrev>", spawn "playerctl previous")
                    , ("M1-C-l", spawn "slock")
                    , ("M-C-s", namedScratchpadAction myScratchpads "spotify")
                    , ("M-C-t", namedScratchpadAction myScratchpads "term")
@@ -178,8 +182,8 @@ manageZoomHook =
 
 myManageHook = composeAll
       [ isDialog                         --> doFloat
-      , className =? "Chromium"          --> doShift (myWorkspaces !! 1)
-      , stringProperty "WM_NAME" =? "Firefox Developer Edition" --> doShift (myWorkspaces !! 1)
+      -- , className =? "Chromium"          --> doShift (myWorkspaces !! 1)
+      -- , stringProperty "WM_NAME" =? "Firefox Developer Edition" --> doShift (myWorkspaces !! 1)
       , stringProperty "WM_NAME" =? "Picture-in-Picture" --> doFloat
       , className =? "JetBrains Toolbox" --> doFloat
       , className =? "Bitwarden"         --> doFloat
