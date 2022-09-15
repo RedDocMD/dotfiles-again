@@ -14,8 +14,11 @@ Config { overrideRedirect = False
 		        ["-t", "<fn=1>\xf028</fn> Vol: <volume>%"] 10
 	            , Run Com "echo" ["<fc=#ffb52a><fn=2>\xf17c</fn></fc>"] "penguin" 3600
 		    , Run Com ".config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 20
+		    , Run BatteryP ["BAT1"] ["-t", "<fn=1>\xf240</fn> <left>% <acstatus>"
+					    , "--"
+					    ] 20
                     ]
        , sepChar  = "%"
        , alignSep = "}{"
-       , template = " %penguin%  %date%    %XMonadLog% }{ %default:Master% %trayerpad%"
+       , template = " %penguin%  %date%    %XMonadLog% }{ %battery%   %default:Master% %trayerpad%"
        }
