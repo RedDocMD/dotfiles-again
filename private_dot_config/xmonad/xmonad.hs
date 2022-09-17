@@ -30,6 +30,8 @@ myTerminal = "alacritty"
 rofiCmd = "rofi -show drun -font \"Iosevka Term 12\" -icon-theme \"Papirus\" -show-icons"
         ++ " -theme \"dracula\""
 
+scrotCmd = "sleep 0.2; scrot -s -F ~/Pictures/%Y-%m-%d-%T-screenshot.png"
+
 myAdditionalKeys = [ ("M-p", spawn rofiCmd)
                    , ("M-a", spawn "alacritty -e ranger")
                    , ("M-M1-q", io (exitWith ExitSuccess))
@@ -39,11 +41,12 @@ myAdditionalKeys = [ ("M-p", spawn rofiCmd)
                    , ("<XF86AudioPlay>", spawn "playerctl play-pause")
                    , ("<XF86AudioNext>", spawn "playerctl next")
                    , ("<XF86AudioPrev>", spawn "playerctl previous")
-                   , ("M1-C-l", spawn "slock")
                    , ("M-C-s", namedScratchpadAction myScratchpads "spotify")
                    , ("M-C-t", namedScratchpadAction myScratchpads "term")
                    , ("M1-C-f", sendMessage $ JumpToLayout "Full")
                    , ("M1-C-t", sendMessage $ JumpToLayout "Tall")
+                   , ("M1-C-l", spawn "slock")
+                   , ("M1-C-s", spawn scrotCmd)
                    , ("M-b", sendMessage ToggleStruts)
                    , ("M-C-r", setRandomWallpaper)
                    ] ++
