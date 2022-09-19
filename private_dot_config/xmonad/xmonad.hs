@@ -15,6 +15,7 @@ import           XMonad.Hooks.ManageDocks
 import           XMonad.Hooks.ManageHelpers  (isDialog, doSink)
 import           XMonad.Hooks.StatusBar
 import           XMonad.Hooks.StatusBar.PP
+import           XMonad.Layout.Gaps
 import           XMonad.Layout.Spacing       (spacing)
 import qualified XMonad.StackSet             as W
 import           XMonad.Util.EZConfig        (additionalKeysP, removeKeysP)
@@ -41,12 +42,12 @@ myAdditionalKeys = [ ("M-p", spawn rofiCmd)
                    , ("<XF86AudioPlay>", spawn "playerctl play-pause")
                    , ("<XF86AudioNext>", spawn "playerctl next")
                    , ("<XF86AudioPrev>", spawn "playerctl previous")
+                   , ("<Print>", spawn scrotCmd)
                    , ("M-C-s", namedScratchpadAction myScratchpads "spotify")
                    , ("M-C-t", namedScratchpadAction myScratchpads "term")
                    , ("M1-C-f", sendMessage $ JumpToLayout "Full")
                    , ("M1-C-t", sendMessage $ JumpToLayout "Tall")
                    , ("M1-C-l", spawn "slock")
-                   , ("M1-C-s", spawn scrotCmd)
                    , ("M-b", sendMessage ToggleStruts)
                    , ("M-C-r", setRandomWallpaper)
                    ] ++
@@ -58,7 +59,7 @@ myAdditionalKeys = [ ("M-p", spawn rofiCmd)
 
 myRemoveKeys = [ "M-S-q" ]
 
-myLayout = avoidStruts . spacing 7 $ tiled ||| Mirror tiled ||| Full
+myLayout = avoidStruts . gaps [(D, 12)] . spacing 7 $ tiled ||| Mirror tiled ||| Full
     where
         tiled = Tall nmaster delta ratio
         nmaster = 1
@@ -67,7 +68,7 @@ myLayout = avoidStruts . spacing 7 $ tiled ||| Mirror tiled ||| Full
 
 trayerCmd = intercalate
             " "
-            [ "sleep 1"
+            [ "sleep 2"
             , "&&"
             , "trayer"
             , "--edge top"
