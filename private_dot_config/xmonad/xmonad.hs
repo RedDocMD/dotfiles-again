@@ -66,24 +66,6 @@ myLayout = avoidStruts . gaps [(D, 12)] . spacing 7 $ tiled ||| Mirror tiled |||
         ratio   = 1/2
         delta   = 3/100
 
-trayerCmd = intercalate
-            " "
-            [ "sleep 2"
-            , "&&"
-            , "trayer"
-            , "--edge top"
-            , "--align right"
-            , "--widthtype request"
-            , "--padding 6"
-            , "--SetDockType true"
-            , "--SetPartialStrut true"
-            , "--expand true"
-            , "--transparent true"
-            , "--alpha 0"
-            , "--tint 0x282828"
-            , "--heighttype pixel"
-            , "--height 24" ]
-
 wallpapersDirs :: [FilePath]
 wallpapersDirs = ["/usr/share/backgrounds/nordic-wallpapers/"]
 
@@ -126,8 +108,8 @@ myStartupHook = do
      spawnOnce "dropbox"
      spawnOnce "nm-applet"
      spawnOnce "xsetroot -cursor_name left_ptr"
-     spawn "killall trayer"
-     spawn trayerCmd
+     spawn "killall stalonetray"
+     spawn "sleep 1; stalonetray"
      setRandomWallpaper
 
 

@@ -3,7 +3,7 @@ Config { overrideRedirect = False
        , additionalFonts = [ "xft:Font Awesome 6 Free Solid:pixelsize=15"
                            , "xft:Font Awesome 6 Brands:pixelsize=15"
                            ]
-       , bgColor      = "#28282"
+       , bgColor      = "#282828"
        , fgColor      = "#ebdbb2"
        , position     = TopSize L 100 24
        , lowerOnStart = True

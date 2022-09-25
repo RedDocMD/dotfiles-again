@@ -70,7 +70,7 @@ set -px PATH $HOME/.local/bin
 set -px PATH $HOME/.cargo/bin
 set -px PATH $HOME/software/node/bin
 set -px PATH $HOME/software/platform-tools
-set -px PATH $HOME/software/julia-1.6.2/bin
+set -px PATH $HOME/software/julia-1.8.1/bin
 set -px PATH $HOME/fuchsia/.jiri_root/bin
 set -px PATH $HOME/software/go/bin
 set -px PATH $HOME/go/bin
