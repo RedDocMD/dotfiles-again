@@ -16,6 +16,8 @@ Plug 'tpope/vim-sleuth'
 Plug 'airblade/vim-gitgutter'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
+Plug 'tpope/vim-repeat'
+Plug 'ggandor/leap.nvim'
 
 " GUI plugins
 Plug 'itchyny/lightline.vim'
@@ -301,6 +303,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     update_in_insert = true,
   }
 )
+
+require('leap').set_default_keymaps()
 EOF
 
 " Plugin settings
@@ -580,6 +584,8 @@ if has("autocmd")
   " https://stackoverflow.com/questions/31449496/vim-ignore-specifc-file-in-autocommand
   au BufReadPost * if expand('%:p') !~# '\m/\.git/' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
+
+silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 
 " Follow Rust code style rules
 au Filetype rust source ~/.config/nvim/scripts/spacetab.vim

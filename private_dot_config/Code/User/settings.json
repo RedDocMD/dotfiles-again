@@ -323,5 +323,6 @@
   "git.mergeEditor": true,
   "window.commandCenter": true,
   "zls.path": "/home/dknite/.local/bin/zls",
+  "editor.fontSize": 13,
   "window.zoomLevel": 1,
 }
