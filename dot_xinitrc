@@ -34,9 +34,12 @@ fi
 
 # Start WM
 
+EXTERNAL_NAME="HDMI-A-0"
+INTERNAL_NAME="eDP"
+
 xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
-xrandr --output "HDMI-0" --primary --auto --output "eDP-1-1" --right-of "HDMI-0" --auto
+xrandr --output "${EXTERNAL_NAME}" --primary --auto --output "${INTERNAL_NAME}" --right-of "${EXTERNAL_NAME}" --auto
 
 # Set trackpad to support touch
 xinput set-prop 12 339 1

@@ -15,7 +15,6 @@ import           XMonad.Hooks.ManageDocks
 import           XMonad.Hooks.ManageHelpers  (isDialog, doSink)
 import           XMonad.Hooks.StatusBar
 import           XMonad.Hooks.StatusBar.PP
-import           XMonad.Layout.Gaps
 import           XMonad.Layout.Spacing       (spacing)
 import qualified XMonad.StackSet             as W
 import           XMonad.Util.EZConfig        (additionalKeysP, removeKeysP)
@@ -59,7 +58,7 @@ myAdditionalKeys = [ ("M-p", spawn rofiCmd)
 
 myRemoveKeys = [ "M-S-q" ]
 
-myLayout = avoidStruts . gaps [(D, 12)] . spacing 7 $ tiled ||| Mirror tiled ||| Full
+myLayout = avoidStruts . spacing 7 $ tiled ||| Mirror tiled ||| Full
     where
         tiled = Tall nmaster delta ratio
         nmaster = 1
@@ -105,9 +104,9 @@ myStartupHook = do
      spawnOnce "picom"
      spawnOnce "wmname LG3D"
      spawnOnce "dunst"
-     spawnOnce "dropbox"
      spawnOnce "nm-applet"
      spawnOnce "xsetroot -cursor_name left_ptr"
+     spawnOnce "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
      spawn "killall stalonetray"
      spawn "sleep 1; stalonetray"
      setRandomWallpaper

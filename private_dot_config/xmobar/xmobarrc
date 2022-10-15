@@ -10,13 +10,13 @@ Config { overrideRedirect = False
        , persistent   = True
        , commands = [ Run Date "%a %d %b, %I:%M %p" "date" 10
                     , Run XMonadLog
-		    , Run Volume "default" "Master"
-		        ["-t", "<fn=1>\xf028</fn> Vol: <volume>%"] 10
-	            , Run Com "echo" ["<fc=#ffb52a><fn=2>\xf17c</fn></fc>"] "penguin" 3600
-		    , Run Com ".config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 20
-		    , Run BatteryP ["BAT1"] ["-t", "<fn=1>\xf240</fn> <left>% <acstatus>"
-					    , "--"
-					    ] 20
+        	    , Run Volume "default" "Master"
+        		["-t", "<fn=1>\xf028</fn> Vol: <volume>%"] 10
+        	    , Run Com "echo" ["<fc=#ffb52a><fn=2>\xf17c</fn></fc>"] "penguin" 3600
+        	    , Run Com ".config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 20
+        	    , Run BatteryP ["BAT0"] ["-t", "<fn=1>\xf240</fn> <left>% <acstatus>"
+        				    , "--"
+        				    ] 20
                     ]
        , sepChar  = "%"
        , alignSep = "}{"
