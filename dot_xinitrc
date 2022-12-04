@@ -38,12 +38,13 @@ xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
 xrandr --output "HDMI-0" --primary --auto --output "eDP-1-1" --right-of "HDMI-0" --auto
 
-# Set trackpad to support touch
-xinput set-prop 12 339 1
-
 # picom &
 # nm-applet &
 command -v dropbox &>/dev/null && dropbox &
 #
 # exec awesome
-exec xmonad
+# exec xmonad
+# export XDG_CURRENT_DESKTOP=Budgie:GNOME
+# exec budgie-desktop
+export DESKTOP_SESSION=plasma
+exec startplasma-x11

@@ -13,7 +13,7 @@
   "editor.rulers": [
     100
   ],
-  "vim.useSystemClipboard": true,
+  "vim.useSystemClipboard": false,
   "vim.incsearch": true,
   "vim.hlsearch": true,
   "vim.leader": "<Space>",
@@ -289,7 +289,7 @@
     "editor.defaultFormatter": "HookyQR.beautify"
   },
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "[javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -325,4 +325,7 @@
   "zls.path": "/home/dknite/.local/bin/zls",
   "editor.fontSize": 13,
   "window.zoomLevel": 1,
+  "[java]": {
+    "editor.defaultFormatter": "redhat.java"
+  },
 }

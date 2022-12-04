@@ -31,7 +31,8 @@ return {
 	keys = keys,
 	scrollback_lines = 100000,
 	ssh_domains = {
-		{name="collosus", remote_address="192.168.29.47", username="dknite"}
+		{name="collosus", remote_address="192.168.29.47", username="dknite"},
+		{name="collosus-vpn", remote_address="10.8.0.3", username="dknite"}
 	},
 	hyperlink_rules = {
 		{
