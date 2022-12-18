@@ -26,7 +26,7 @@ end
 
 return {
 	color_scheme = "Gruvbox Dark",
-	font = wezterm.font("Iosevka Term"),
+	font = wezterm.font("Iosevka Term Slab"),
 	leader = {key="a", mods="CTRL", timeout_milliseconds=400},
 	keys = keys,
 	scrollback_lines = 100000,

@@ -3,7 +3,7 @@
     "*.ipynb": "jupyter-notebook"
   },
   "workbench.iconTheme": "material-icon-theme",
-  "editor.fontFamily": "Fira Code",
+  "editor.fontFamily": "Monoid Nerd Font",
   "terminal.integrated.fontFamily": "Iosevka",
   "editor.fontLigatures": true,
   "window.menuBarVisibility": "compact",
@@ -244,7 +244,8 @@
     "192.168.29.47": "linux",
     "10.0.0.3": "linux",
     "10.8.0.3": "linux",
-    "10.8.03": "linux"
+    "10.8.03": "linux",
+    "Collosus": "linux"
   },
   "cSpell.userWords": [
     "codebases",
@@ -324,8 +325,8 @@
   "window.commandCenter": true,
   "zls.path": "/home/dknite/.local/bin/zls",
   "editor.fontSize": 13,
-  "window.zoomLevel": 1,
   "[java]": {
     "editor.defaultFormatter": "redhat.java"
   },
+  "window.zoomLevel": 1,
 }
