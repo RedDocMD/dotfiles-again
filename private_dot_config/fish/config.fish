@@ -58,6 +58,7 @@ end
 
 
 abbr -a e nvim
+abbr -a m emacsclient -c -a 'emacs'
 
 # Dotfile repo
 alias config '/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
@@ -81,6 +82,7 @@ end
 set -px PATH $HOME/.linuxbrew/bin $HOME/.linuxbrew/sbin
 set -px PATH $HOME/.ghcup/bin
 set -px PATH $HOME/software/flutter/bin
+set -px PATH $HOME/.emacs.d/bin
 
 # Homebrew
 set -x HOMEBREW_PREFIX "/home/dknite/.linuxbrew"
@@ -143,6 +145,9 @@ if command -v tere > /dev/null
         [ -n "$result" ] && cd -- "$result"
     end
 end
+
+# Cargo
+set -x CARGO_TARGET_DIR $HOME/.cargo_target
 
 # Start X on login
 if status is-login

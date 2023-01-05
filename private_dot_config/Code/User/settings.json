@@ -13,7 +13,7 @@
   "editor.rulers": [
     100
   ],
-  "vim.useSystemClipboard": true,
+  "vim.useSystemClipboard": false,
   "vim.incsearch": true,
   "vim.hlsearch": true,
   "vim.leader": "<Space>",
@@ -186,7 +186,6 @@
     }
   ],
   "go.toolsManagement.autoUpdate": true,
-  "haskell.formattingProvider": "brittany",
   "clang-format.assumeFilename": ".clang-format",
   "git.confirmSync": false,
   "rust-analyzer.completion.addCallArgumentSnippets": false,
@@ -244,7 +243,8 @@
     "192.168.29.47": "linux",
     "10.0.0.3": "linux",
     "10.8.0.3": "linux",
-    "10.8.03": "linux"
+    "10.8.03": "linux",
+    "Collosus": "linux"
   },
   "cSpell.userWords": [
     "codebases",
@@ -277,19 +277,19 @@
   },
   "cSpell.language": "en-GB",
   "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
-  "vscode-neovim.neovimInitVimPaths.linux": "/home/dknite/.config/nvim/init.vim",
+  "vscode-neovim.neovimInitVimPaths.linux": "/home/dknite/.config/nvim/vscode.vim",
   "editor.formatOnSave": true,
   "telemetry.telemetryLevel": "off",
   "mesonbuild.configureOnOpen": false,
   "zigLanguageClient.path": "/home/dknite/.local/bin/zls",
   "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "vscode.json-language-features"
   },
   "[django-html]": {
     "editor.defaultFormatter": "HookyQR.beautify"
   },
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "[javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -319,10 +319,16 @@
     "*.dart.golden": "dart",
   },
   "haskell.manageHLS": "GHCup",
-  "workbench.colorTheme": "Panda Syntax",
+  "workbench.colorTheme": "One Dark Pro Darker",
   "git.mergeEditor": true,
   "window.commandCenter": true,
   "zls.path": "/home/dknite/.local/bin/zls",
   "editor.fontSize": 13,
-  "window.zoomLevel": 1,
+  "haskell.formattingProvider": "stylish-haskell",
+  "files.watcherExclude": {
+    "**/.bloop": true,
+    "**/.metals": true,
+    "**/.ammonite": true
+  },
+  "window.zoomLevel": 2,
 }
