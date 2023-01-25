@@ -43,8 +43,8 @@ xrandr --output "HDMI-0" --primary --auto --output "eDP-1-1" --right-of "HDMI-0"
 command -v dropbox &>/dev/null && dropbox &
 #
 # exec awesome
-# exec xmonad
+exec xmonad
 # export XDG_CURRENT_DESKTOP=Budgie:GNOME
 # exec budgie-desktop
-export DESKTOP_SESSION=plasma
-exec startplasma-x11
+# export DESKTOP_SESSION=plasma
+# exec startplasma-x11

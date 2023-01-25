@@ -1,4 +1,4 @@
--- Install packer
+-- Install packerl/f
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 local is_bootstrap = false
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
@@ -45,7 +45,8 @@ require('packer').startup(function(use)
   use 'tpope/vim-rhubarb'
   use 'lewis6991/gitsigns.nvim'
 
-  use 'navarasu/onedark.nvim' -- Theme inspired by Atom
+  -- use 'navarasu/onedark.nvim' -- Theme inspired by Atom
+  use 'chriskempson/base16-vim'
   use 'nvim-lualine/lualine.nvim' -- Fancier statusline
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
   use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
@@ -56,6 +57,11 @@ require('packer').startup(function(use)
 
   -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
+
+  use 'airblade/vim-rooter'
+  use 'tpope/vim-surround'
+  use 'bkad/CamelCaseMotion'
+  use 'ziglang/zig.vim'
 
   -- Add custom plugins to packer from /nvim/lua/custom/plugins.lua
   local has_plugins, plugins = pcall(require, 'custom.plugins')
@@ -114,10 +120,6 @@ vim.o.smartcase = true
 -- Decrease update time
 vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
-
--- Set colorscheme
-vim.o.termguicolors = true
-vim.cmd [[colorscheme onedark]]
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
@@ -198,8 +200,9 @@ require('telescope').setup {
 pcall(require('telescope').load_extension, 'fzf')
 
 -- See `:help telescope.builtin`
-vim.keymap.set('n', '<leader>:', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
--- vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
+-- vim.keymap.set('n', '<leader>:', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' }-
+vim.keymap.set('n', '<leader>;', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
+vim.keymap.set('n', '<leader><leader>', '<C-^>')
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
@@ -208,7 +211,7 @@ vim.keymap.set('n', '<leader>/', function()
   })
 end, { desc = '[/] Fuzzily search in current buffer]' })
 
-vim.keymap.set('n', 'C-p', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
@@ -218,7 +221,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help' },
+  ensure_installed = { 'c', 'cpp', 'go', 'python', 'rust', 'typescript', 'help' },
 
   highlight = { enable = true },
   indent = { enable = true },
@@ -331,6 +334,7 @@ local on_attach = function(_, bufnr)
     end
   end, { desc = 'Format current buffer with LSP' })
 end
+vim.keymap.set('n', '<leader>n', ':Format<cr>')
 
 -- Setup mason so it can manage external tooling
 require('mason').setup()
@@ -338,6 +342,32 @@ require('mason').setup()
 -- Enable the following language servers
 -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
 local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'sumneko_lua', 'gopls' }
+local server_settings = {
+  rust_analyzer = {
+    assist = {
+      importGranularity = 'module',
+      importPrefix = 'by_self',
+    },
+    checkOnSave = {
+      command = 'clippy'
+    },
+    cargo = {
+      allFeatures = true,
+      autoreload = true,
+    },
+    completion = {
+      postfix = {
+        enable = false,
+      },
+    },
+  },
+  gopls = {
+    analyses = {
+      unusedparams = true
+    },
+    staticcheck = true,
+  },
+}
 
 -- Ensure the servers above are installed
 require('mason-lspconfig').setup {
@@ -352,8 +382,11 @@ for _, lsp in ipairs(servers) do
   require('lspconfig')[lsp].setup {
     on_attach = on_attach,
     capabilities = capabilities,
+    settings = server_settings,
   }
 end
+
+vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()]]
 
 -- Turn on lsp status information
 require('fidget').setup()
@@ -430,12 +463,37 @@ cmp.setup {
 }
 
 -- Map other stuff
-local modes = {'n', 'v', 's', 'x', 'o', '!', 'i', 'l', 'c', 't'}
-for _, ty in ipairs(modes) do
-  vim.keymap.set(ty, 'fd', '<Esc>')
-end
-vim.keymap.set('n', ';', ':')
+vim.keymap.set({ 'n', 'v', 's', 'x', 'o', '!', 'i', 'l', 'c', 't' }, 'fd', '<Esc>')
 vim.keymap.set('n', '<Leader>s', ':w<cr>')
+vim.keymap.set('n', 'H', '0')
+vim.keymap.set('n', 'L', '$')
+
+-- CamelCaseMotion
+vim.keymap.set('', 'w', '<Plug>CamelCaseMotion_w')
+vim.keymap.set('', 'b', '<Plug>CamelCaseMotion_b')
+vim.keymap.set('', 'e', '<Plug>CamelCaseMotion_e')
+vim.keymap.set('', 'ge', '<Plug>CamelCaseMotion_ge')
+vim.keymap.del('s', 'w')
+vim.keymap.del('s', 'b')
+vim.keymap.del('s', 'e')
+vim.keymap.del('s', 'ge')
+
+-- Deal with colors
+vim.o.termguicolors = true
+vim.o.background = "dark"
+vim.o.syntax = "on"
+if vim.g.neovide ~= nil then
+  vim.cmd("colorscheme base16-nord")
+else
+  vim.cmd("colorscheme base16-gruvbox-dark-hard")
+end
+vim.g.base16_shell_path = "~/software/base16-shell/scripts/"
+vim.cmd("hi Normal ctermbg=NONE")
+-- Brighter comments
+vim.fn.Base16hi("Comment", vim.g.base16_gui09, "", vim.g.base16_cterm09, "", "", "")
+-- Make it clearly visible which argument we're at.
+vim.fn.Base16hi("LspSignatureActiveParameter", vim.g.base16_gui05, vim.g.base16_gui03, vim.g.base16_cterm05,
+  vim.g.base16_cterm03, "bold", "")
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
