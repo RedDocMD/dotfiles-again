@@ -48,4 +48,11 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
-exec /home/dknite/software/dwm/dwm
+xrandr --output "HDMI-A-0" --primary --auto --output "eDP" --right-of "HDMI-A-0" --auto
+feh --bg-fill --recursive --randomize --no-fehbg /usr/share/backgrounds/nordic-wallpapers/
+nm-applet &
+dropbox &
+dwm-statusbar &> /tmp/dwm-statusbar.log &
+exec dwm
+# polybar external &
+# exec leftwm

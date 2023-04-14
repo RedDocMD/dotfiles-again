@@ -3,8 +3,8 @@
     "*.ipynb": "jupyter-notebook"
   },
   "workbench.iconTheme": "material-icon-theme",
-  "editor.fontFamily": "Fira Code",
-  "terminal.integrated.fontFamily": "Iosevka",
+  "editor.fontFamily": "Hasklug Nerd Font",
+  "terminal.integrated.fontFamily": "Fira Code",
   "editor.fontLigatures": true,
   "window.menuBarVisibility": "compact",
   "window.titleBarStyle": "custom",
@@ -26,7 +26,8 @@
   "vim.insertModeKeyBindingsNonRecursive": [
     {
       "before": [
-        "<C-k>"
+        "f",
+        "d"
       ],
       "after": [
         "<Esc>"
@@ -318,17 +319,22 @@
     "*.go.golden": "go",
     "*.dart.golden": "dart",
   },
-  "haskell.manageHLS": "GHCup",
   "workbench.colorTheme": "One Dark Pro Darker",
   "git.mergeEditor": true,
   "window.commandCenter": true,
   "zls.path": "/home/dknite/.local/bin/zls",
   "editor.fontSize": 13,
-  "haskell.formattingProvider": "stylish-haskell",
+  "haskell.formattingProvider": "brittany",
   "files.watcherExclude": {
     "**/.bloop": true,
     "**/.metals": true,
     "**/.ammonite": true
   },
-  "window.zoomLevel": 2,
+  "window.zoomLevel": 1,
+  "haskell.manageHLS": "GHCup",
+  "zig.zls.path": "/home/dknite/.config/Code/User/globalStorage/ziglang.vscode-zig/zls_install/zls",
+  "[zig]": {
+    "editor.defaultFormatter": "ziglang.vscode-zig"
+  },
+  "C_Cpp.intelliSenseEngine": "disabled",
 }

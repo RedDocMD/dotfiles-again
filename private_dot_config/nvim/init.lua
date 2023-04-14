@@ -47,10 +47,10 @@ require('packer').startup(function(use)
 
   -- use 'navarasu/onedark.nvim' -- Theme inspired by Atom
   use 'chriskempson/base16-vim'
-  use 'nvim-lualine/lualine.nvim' -- Fancier statusline
+  use 'nvim-lualine/lualine.nvim'           -- Fancier statusline
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
-  use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
-  use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
+  use 'numToStr/Comment.nvim'               -- "gc" to comment visual regions/lines
+  use 'tpope/vim-sleuth'                    -- Detect tabstop and shiftwidth automatically
 
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -61,6 +61,7 @@ require('packer').startup(function(use)
   use 'airblade/vim-rooter'
   use 'tpope/vim-surround'
   use 'bkad/CamelCaseMotion'
+  use 'ziglang/zig.vim'
 
   -- Add custom plugins to packer from /nvim/lua/custom/plugins.lua
   local has_plugins, plugins = pcall(require, 'custom.plugins')
@@ -340,31 +341,35 @@ require('mason').setup()
 
 -- Enable the following language servers
 -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
-local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'sumneko_lua', 'gopls' }
+local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'lua_ls', 'gopls' }
 local server_settings = {
   rust_analyzer = {
-    assist = {
-      importGranularity = 'module',
-      importPrefix = 'by_self',
-    },
-    checkOnSave = {
-      command = 'clippy'
-    },
-    cargo = {
-      allFeatures = true,
-      autoreload = true,
-    },
-    completion = {
-      postfix = {
-        enable = false,
+    ['rust-analyzer'] = {
+      assist = {
+        importGranularity = 'module',
+        importPrefix = 'by_self',
+      },
+      checkOnSave = {
+        command = 'clippy'
+      },
+      cargo = {
+        allFeatures = true,
+        autoreload = true,
+      },
+      completion = {
+        postfix = {
+          enable = false,
+        },
       },
     },
   },
   gopls = {
-    analyses = {
-      unusedparams = true
+    gopls = {
+      analyses = {
+        unusedparams = true
+      },
+      staticcheck = true,
     },
-    staticcheck = true,
   },
 }
 
@@ -377,15 +382,16 @@ require('mason-lspconfig').setup {
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
+local lspconfig = require('lspconfig')
 for _, lsp in ipairs(servers) do
-  require('lspconfig')[lsp].setup {
+  lspconfig[lsp].setup {
     on_attach = on_attach,
     capabilities = capabilities,
-    settings = server_settings,
+    settings = server_settings[lsp],
   }
 end
 
-vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()]]
+vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
 
 -- Turn on lsp status information
 require('fidget').setup()
@@ -397,7 +403,7 @@ local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
 
-require('lspconfig').sumneko_lua.setup {
+require('lspconfig').lua_ls.setup {
   on_attach = on_attach,
   capabilities = capabilities,
   settings = {

@@ -75,7 +75,6 @@ set -px PATH $HOME/software/julia-1.8.1/bin
 set -px PATH $HOME/fuchsia/.jiri_root/bin
 set -px PATH $HOME/software/go/bin
 set -px PATH $HOME/go/bin
-set -px PATH $HOME/.local/share/coursier/bin
 if test -e ~/fuchsia/scripts/fx-env.fish
     source ~/fuchsia/scripts/fx-env.fish
 end
@@ -83,6 +82,7 @@ set -px PATH $HOME/.linuxbrew/bin $HOME/.linuxbrew/sbin
 set -px PATH $HOME/.ghcup/bin
 set -px PATH $HOME/software/flutter/bin
 set -px PATH $HOME/.emacs.d/bin
+set -px PATH $HOME/.dotnet
 
 # Homebrew
 set -x HOMEBREW_PREFIX "/home/dknite/.linuxbrew"
