@@ -3,7 +3,7 @@
     "*.ipynb": "jupyter-notebook"
   },
   "workbench.iconTheme": "material-icon-theme",
-  "editor.fontFamily": "Monoid Nerd Font",
+  "editor.fontFamily": "Hasklug Nerd Font",
   "terminal.integrated.fontFamily": "Iosevka",
   "editor.fontLigatures": true,
   "window.menuBarVisibility": "compact",
@@ -26,7 +26,8 @@
   "vim.insertModeKeyBindingsNonRecursive": [
     {
       "before": [
-        "<C-k>"
+        "f",
+        "d"
       ],
       "after": [
         "<Esc>"
@@ -186,7 +187,7 @@
     }
   ],
   "go.toolsManagement.autoUpdate": true,
-  "haskell.formattingProvider": "brittany",
+  "haskell.formattingProvider": "stylish-haskell",
   "clang-format.assumeFilename": ".clang-format",
   "git.confirmSync": false,
   "rust-analyzer.completion.addCallArgumentSnippets": false,
@@ -252,6 +253,7 @@
     "comparision",
     "concat",
     "cpuid",
+    "Curr",
     "deallocation",
     "dknite",
     "eval",
@@ -320,13 +322,13 @@
     "*.dart.golden": "dart",
   },
   "haskell.manageHLS": "GHCup",
-  "workbench.colorTheme": "Panda Syntax",
+  "workbench.colorTheme": "Community Material Theme Ocean High Contrast",
   "git.mergeEditor": true,
   "window.commandCenter": true,
   "zls.path": "/home/dknite/.local/bin/zls",
-  "editor.fontSize": 13,
   "[java]": {
     "editor.defaultFormatter": "redhat.java"
   },
   "window.zoomLevel": 1,
+  "editor.fontSize": 13,
 }

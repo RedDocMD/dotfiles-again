@@ -173,6 +173,7 @@ myManageHook = composeAll
       , stringProperty "WM_NAME" =? "Picture-in-Picture" --> doFloat
       , className =? "JetBrains Toolbox" --> doFloat
       , className =? "Bitwarden"         --> doFloat
+      , className =? "Animated Cartoon"  --> doFloat
       ]
       <+> manageZoomHook
       <+> scratchpadManageHook
