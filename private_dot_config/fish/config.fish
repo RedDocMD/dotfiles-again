@@ -1,3 +1,5 @@
+source /opt/local/share/fzf/shell/key-bindings.fish
+
 # greeting
 function fish_greeting
 end
@@ -81,10 +83,17 @@ end
 set -px PATH $HOME/.linuxbrew/bin $HOME/.linuxbrew/sbin
 set -px PATH $HOME/.ghcup/bin
 
+# Cargo
+set -x CARGO_TARGET_DIR "$HOME/.cargo_target"
+
 # Homebrew
 set -x HOMEBREW_PREFIX "/home/dknite/.linuxbrew"
 set -x HOMEBREW_CELLAR "/home/dknite/.linuxbrew/Cellar"
 set -x HOMEBREW_REPOSITORY "/home/dknite/.linuxbrew/Homebrew"
+
+# MacPorts
+set -px PATH "/opt/local/bin"
+set -px PATH "/opt/local/sbin"
 
 # For ccache
 if command -v ccache > /dev/null
