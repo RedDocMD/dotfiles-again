@@ -468,7 +468,7 @@ cmp.setup {
 }
 
 -- Map other stuff
-vim.keymap.set({ 'n', 'v', 's', 'x', 'o', '!', 'i', 'l', 'c', 't' }, 'fd', '<Esc>')
+vim.keymap.set({ 'n', 'v', 's', 'x', 'o', '!', 'i', 'l', 'c', 't' }, '<C-k>', '<Esc>')
 vim.keymap.set('n', '<Leader>s', ':w<cr>')
 vim.keymap.set('n', 'H', '0')
 vim.keymap.set('n', 'L', '$')
