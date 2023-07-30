@@ -2,9 +2,9 @@
 function fish_greeting
 end
 
-function fish_user_key_bindings
-    fzf_key_bindings
-end
+# function fish_user_key_bindings
+#     fzf_key_bindings
+# end
 
 # terminal title
 function fish_title
@@ -155,3 +155,5 @@ if status is-login
         exec startx -- -keeptty
     end
 end
+
+set -x npm_config_prefix "$HOME/.local"
