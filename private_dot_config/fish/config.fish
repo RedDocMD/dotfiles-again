@@ -87,13 +87,17 @@ set -px PATH $HOME/.ghcup/bin
 set -x CARGO_TARGET_DIR "$HOME/.cargo_target"
 
 # Homebrew
-set -x HOMEBREW_PREFIX "/home/dknite/.linuxbrew"
-set -x HOMEBREW_CELLAR "/home/dknite/.linuxbrew/Cellar"
-set -x HOMEBREW_REPOSITORY "/home/dknite/.linuxbrew/Homebrew"
+set -gx HOMEBREW_PREFIX "/opt/homebrew";
+set -gx HOMEBREW_CELLAR "/opt/homebrew/Cellar";
+set -gx HOMEBREW_REPOSITORY "/opt/homebrew";
+set -px PATH "/opt/homebrew/bin" "/opt/homebrew/sbin"
+set -px MANPATH "/opt/homebrew/share/man"
+set -px INFOPATH "/opt/homebrew/share/info"
 
 # MacPorts
-set -px PATH "/opt/local/bin"
-set -px PATH "/opt/local/sbin"
+set -px PATH "/opt/local/bin" "/opt/local/sbin"
+set -px LDPATH "/opt/local/lib"
+set -px LIBRARY_PATH "/opt/local/lib"
 
 # For ccache
 if command -v ccache > /dev/null
