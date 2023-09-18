@@ -3,7 +3,7 @@
     "*.ipynb": "jupyter-notebook"
   },
   "workbench.iconTheme": "material-icon-theme",
-  "editor.fontFamily": "Hasklug Nerd Font",
+  "editor.fontFamily": "Iosevka",
   "terminal.integrated.fontFamily": "Fira Code",
   "editor.fontLigatures": true,
   "window.menuBarVisibility": "compact",
@@ -318,11 +318,9 @@
     "*.go.golden": "go",
     "*.dart.golden": "dart",
   },
-  "workbench.colorTheme": "One Dark Pro Darker",
   "git.mergeEditor": true,
   "window.commandCenter": true,
   "zls.path": "/home/dknite/.local/bin/zls",
-  "editor.fontSize": 13,
   "haskell.formattingProvider": "brittany",
   "files.watcherExclude": {
     "**/.bloop": true,
@@ -336,4 +334,6 @@
     "editor.defaultFormatter": "ziglang.vscode-zig"
   },
   "C_Cpp.intelliSenseEngine": "disabled",
+  "workbench.colorTheme": "Dracula",
+  "editor.fontSize": 15,
 }
