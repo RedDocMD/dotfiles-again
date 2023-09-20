@@ -128,3 +128,7 @@ function fidldev
     $FIDLMISC_DIR/fidldev/fidldev.py $argv
 end
 set -x ASAN_SYMBOLIZER_PATH  "$HOME/fuchsia/prebuilt/third_party/clang/linux-x64/bin/llvm-symbolizer"
+
+set -x LANG en_US.UTF-8
+
+source /Users/dknite/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
