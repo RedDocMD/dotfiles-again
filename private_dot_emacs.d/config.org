@@ -10,19 +10,30 @@
   - [[#elpaca-package-manager][Elpaca Package Manager]]
   - [[#load-evil-mode][Load Evil Mode]]
   - [[#general-keybindings][General Keybindings]]
+  - [[#send-backup-files-elsewhere][Send Backup files elsewhere]]
 - [[#gui-tweaks][GUI TWEAKS]]
   - [[#nord-theme][Nord Theme]]
+  - [[#rainbow-delimiters][Rainbow Delimiters]]
+  - [[#highlight][Highlight]]
   - [[#set-the-fonts][Set the Fonts]]
   - [[#disable-stuff-i-dont-like][Disable stuff I don't like]]
   - [[#line-numbers][Line numbers]]
   - [[#which-key][Which Key]]
   - [[#all-the-icons][All The Icons]]
   - [[#neotree][Neotree]]
+  - [[#dashboard][Dashboard]]
+  - [[#doom-modeline][Doom Modeline]]
 - [[#ivy-and-friends][Ivy and Friends]]
+- [[#projectile][Projectile]]
+- [[#magit][Magit]]
+- [[#lsp][LSP]]
+  - [[#rust][Rust]]
 - [[#org-mode][ORG Mode]]
   - [[#enabling-toc][Enabling TOC]]
+  - [[#basic-config][Basic Config]]
   - [[#org-bullets][Org Bullets]]
   - [[#disable-electric-indent-in-org-mode][Disable Electric Indent in Org Mode]]
+- [[#tramp-remote-ssh][Tramp (Remote SSH)]]
 - [[#sudo-edit][Sudo Edit]]
 
 * IMPORTANT PROGRAMS TO LOAD FIRST
@@ -147,8 +158,15 @@
     "h" '(:ignore t :wk "Help")
     "h f" '(describe-function :wk "Describe function")
     "h v" '(describe-variable :wk "Describe variable")
-    "h r r" '((lambda () (interactive) (load-file "~/.emacs.d/init.el")) :wk "Reload emacs config"))
+    "h r r" '((lambda () (interactive) 
+                (load-file "~/.emacs.d/init.el")) :wk "Reload emacs config"))
 )
+#+end_src
+
+** Send Backup files elsewhere
+
+#+begin_src emacs-lisp
+(setq backup-directory-alist '((".*" . "~/.emacsdid")))
 #+end_src
 
 * GUI TWEAKS
@@ -162,41 +180,72 @@
     (load-theme 'nord t))
 #+end_src
 
+** Rainbow Delimiters
+
+#+begin_src emacs-lisp
+(use-package rainbow-delimiters
+  :hook ((org-mode . rainbow-delimiters-mode)
+         (prog-mode . rainbow-delimiters-mode)))
+#+end_src
+
+** TODO Highlight
+
+#+begin_src emacs-lisp
+(use-package hl-todo
+  :hook ((org-mode . hl-todo-mode)
+         (prog-mode . hl-todo-mode))
+  :config
+  (setq hl-todo-highlight-punctuation ":"
+        hl-todo-keyword-faces
+        '(("TODO"   warning  bold)
+          ("FIXME"  error bold))))
+
+#+end_src
+
 ** Set the Fonts
 
 #+begin_src emacs-lisp
-  (set-face-attribute 'default nil
-    :font "Iosevka Curly"
-    :height 200
-    :weight 'medium)
-  (set-face-attribute 'variable-pitch nil
-    :font "SF Pro"
-    :height 200
-    :weight 'medium)
-  (set-face-attribute 'fixed-pitch nil
-    :font "Iosevka Curly"
-    :height 200 
-    :weight 'medium)
+(use-package nerd-icons
+  :config
+  (setq nerd-icons-font-family "Symbols Nerd Font"))
 
-  ;; Make comments italics
-  (set-face-attribute 'font-lock-comment-face nil
-    :slant 'italic)
-  (set-face-attribute 'font-lock-keyword-face nil
-    :slant 'italic)
+(set-face-attribute 'default nil
+  :font "Iosevka Curly"
+  :height 200
+  :weight 'medium)
+(set-face-attribute 'variable-pitch nil
+  :font "SF Pro"
+  :height 200
+  :weight 'medium)
+(set-face-attribute 'fixed-pitch nil
+  :font "Iosevka Curly"
+  :height 200 
+  :weight 'medium)
+
+;; Make comments italics
+(set-face-attribute 'font-lock-comment-face nil
+  :slant 'italic)
+(set-face-attribute 'font-lock-keyword-face nil
+  :slant 'italic)
 #+end_src
 
 ** Disable stuff I don't like
 
 #+begin_src emacs-lisp
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(set-fringe-mode 10)
 #+end_src
 
 ** Line numbers
 
 #+begin_src emacs-lisp
-  (global-display-line-numbers-mode 1)
-  (global-visual-line-mode t)
+(global-display-line-numbers-mode 1)
+(global-visual-line-mode t)
+(dolist (mode '(org-mode-hook
+                term-mode-hook
+                eshell-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
 #+end_src
 
 ** Which Key
@@ -242,6 +291,41 @@
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 #+end_src
 
+** Dashboard
+
+#+begin_src emacs-lisp
+(use-package dashboard
+:elpaca t
+:after all-the-icons
+:config
+(add-hook 'elpaca-after-init-hook #'dashboard-insert-startupify-lists)
+(add-hook 'elpaca-after-init-hook #'dashboard-initialize)
+(dashboard-setup-startup-hook)
+(setq dashboard-banner-logo-title "Enter the Emacs")
+(setq dashboard-startup-banner 'logo)
+(setq dashboard-center-content t)
+(setq dashboard-show-shortcuts nil)
+(setq dashboard-display-icons-p t)
+(setq dashboard-icon-type 'nerd-icons)
+;; (setq dashboard-set-heading-icons t)
+;; (setq dashboard-set-file-icons t)
+(setq dashboard-items '((recents . 5) 
+                        (projects . 5))))
+#+end_src
+
+** Doom Modeline
+
+#+begin_src emacs-lisp
+(use-package doom-modeline
+:ensure t
+:init (doom-modeline-mode 1)
+:config
+(setq doom-modeline-height 30
+      doom-modeline-bar-width 5
+      doom-modeline-persp-name t
+      doom-modeline-persp-icon t))
+#+end_src
+
 * Ivy and Friends
 
 #+begin_src emacs-lisp
@@ -277,6 +361,113 @@
                                  'ivy-rich-switch-buffer-transformer))
 #+end_src
 
+* Projectile
+
+#+begin_src emacs-lisp
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-mode +1)
+  :bind (:map projectile-mode-map
+              ("C-c p" . projectile-command-map))
+  :config
+  (setq projectile-project-search-path '(("~/Documents/Arduino" . 2)
+                                         ("~/work" . 4))))
+#+end_src
+
+* Magit
+
+#+begin_src emacs-lisp
+(use-package magit
+  :ensure t)
+#+end_src
+
+* LSP
+
+#+begin_src emacs-lisp
+
+(defun efs/lsp-mode-setup ()
+  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+  (lsp-headerline-breadcrumb-mode))
+
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :hook (lsp-mode . efs/lsp-mode-setup)
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :config
+  (lsp-enable-which-key-integration t)
+  (lsp-register-client
+    (make-lsp-client :new-connection (lsp-tramp-connection "rust-analyzer")
+                     :major-modes '(rustic-mode)
+                     :remote? t
+                     :server-id 'rust-analyzer))
+  :custom
+  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-eldoc-render-all t)
+  (lsp-idle-delay 0.6)
+  ;; enable / disable the hints as you prefer:
+  (lsp-inlay-hint-enable t)
+  ;; These are optional configurations. See https://emacs-lsp.github.io/lsp-mode/page/lsp-rust-analyzer/#lsp-rust-analyzer-display-chaining-hints for a full list
+  (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
+  (lsp-rust-analyzer-display-chaining-hints t)
+  (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
+  (lsp-rust-analyzer-display-closure-return-type-hints t)
+  (lsp-rust-analyzer-display-parameter-hints nil)
+  (lsp-rust-analyzer-display-reborrow-hints nil))
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-enable nil)
+  (lsp-ui-peek-always-show t)
+  (lsp-ui-sideline-show-hover nil))
+
+(use-package lsp-treemacs
+  :after lsp)
+
+(use-package lsp-ivy)
+
+(use-package company
+  :after lsp-mode
+  :hook (lsp-mode . company-mode)
+  :bind (:map company-active-map
+	 ("<tab>" . company-complete-selection))
+	(:map lsp-mode-map
+	 ("<tab>" . company-indent-or-complete-common))
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.0))
+
+(use-package company-box
+  :hook (company-mode . company-box-mode))
+
+#+end_src
+
+** Rust
+
+#+begin_src emacs-lisp
+(use-package rustic
+  :ensure
+  :bind (:map rustic-mode-map
+              ("M-j" . lsp-ui-imenu)
+              ("M-?" . lsp-find-references)
+              ("C-c C-c l" . flycheck-list-errors)
+              ("C-c C-c a" . lsp-execute-code-action)
+              ("C-c C-c r" . lsp-rename)
+              ("C-c C-c q" . lsp-workspace-restart)
+              ("C-c C-c Q" . lsp-workspace-shutdown)
+              ("C-c C-c s" . lsp-rust-analyzer-status))
+  :config
+  ;; uncomment for less flashiness
+  ;; (setq lsp-eldoc-hook nil)
+  ;; (setq lsp-enable-symbol-highlighting nil)
+  ;; (setq lsp-signature-auto-activate nil)
+
+  ;; comment to disable rustfmt on save
+  (setq rustic-format-on-save t))
+#+end_src
+
 * ORG Mode
 
 ** Enabling TOC
@@ -285,6 +476,47 @@
   (use-package toc-org
     :commands toc-org-enable
     :init (add-hook 'org-mode-hook 'toc-org-enable))
+#+end_src
+
+** Basic Config
+
+#+begin_src emacs-lisp
+(defun efs/org-font-setup ()
+  ;; Replace list hyphen with dot
+  (font-lock-add-keywords 'org-mode
+                          '(("^ *\\([-]\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
+  ;; Set faces for heading levels
+  (dolist (face '((org-level-1 . 1.2)
+                  (org-level-2 . 1.1)
+                  (org-level-3 . 1.05)
+                  (org-level-4 . 1.0)
+                  (org-level-5 . 1.1)
+                  (org-level-6 . 1.1)
+                  (org-level-7 . 1.1)
+                  (org-level-8 . 1.1)))
+    (set-face-attribute (car face) nil :font "Ubuntu" :weight 'regular :height (cdr face)))
+
+  ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+  (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
+
+(defun efs/org-mode-setup ()
+  (org-indent-mode)
+  (variable-pitch-mode 1)
+  (visual-line-mode 1))
+
+(setq org-ellipsis " ▾")
+
+(add-hook 'org-mode-hook
+  (lambda () (efs/org-mode-setup)
+             (efs/org-font-setup)))
 #+end_src
 
 ** Org Bullets
@@ -300,6 +532,22 @@
 #+begin_src emacs-lisp
   (add-hook 'org-mode-hook (lambda () (electric-indent-mode -1)))
   (setq org-edit-src-content-indentation 0)
+#+end_src
+
+* Tramp (Remote SSH)
+
+#+begin_src emacs-lisp
+(custom-set-variables 
+  '(tramp-default-method "ssh")
+  '(tramp-default-user "dknite")
+  '(tramp-default-host "Collosus"))
+
+(use-package counsel-tramp
+  :config
+  (setq tramp-default-method "ssh")
+  :bind
+  (("C-c s" . 'counsel-tramp)))
+
 #+end_src
 
 * Sudo Edit
