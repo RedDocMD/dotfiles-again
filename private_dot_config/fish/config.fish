@@ -13,32 +13,10 @@ function fish_title
     set -q argv[1]; or set argv fish
     # Looks like ~/d/fish: git log
     # or /e/apt: fish
-    echo -n "Collosus:"
+    echo -n "MacMini:"
     echo (fish_prompt_pwd_dir_length=1 prompt_pwd);
 end
 
-# Set environment variables
-set -x EDITOR nvim
-if command -v bat > /dev/null
-    set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
-    set -x MANROFFOPT "-c"
-end
-set -x RANGER_LOAD_DEFAULT_RC FALSE
-set -x pager less
-
-# exa for ls
-if command -v exa > /dev/null
-    abbr -a ls exa
-    abbr -a ll exa -l
-    abbr -a la exa -a
-    abbr -a lla exa -la
-end
-
-# source autojump
-set --local AUTOJUMP_PATH /usr/share/autojump/autojump.fish
-if test -e $AUTOJUMP_PATH
-    source $AUTOJUMP_PATH
-end
 
 # git abbreviations
 abbr -a gaa git add .
@@ -49,15 +27,6 @@ abbr -a gst git status
 if command -v bat > /dev/null
     abbr -a gdf "git diff --name-only --diff-filter=d | xargs bat --diff"
 end
-
-function diff -d "Fancy diff from Git"
-    if command -v diff-so-fancy > /dev/null
-        command git diff --color $argv | diff-so-fancy | less -r
-    else
-        command git diff --color $argv
-    end
-end
-
 
 abbr -a e nvim
 
@@ -82,6 +51,9 @@ if test -e ~/fuchsia/scripts/fx-env.fish
 end
 set -px PATH $HOME/.linuxbrew/bin $HOME/.linuxbrew/sbin
 set -px PATH $HOME/.ghcup/bin
+set -px PATH $HOME/Android/cmdline-tools/latest/bin
+set -px PATH /opt/local/libexec/perl5.34/sitebin/
+set -px PATH /Applications/Inkscape.app/Contents/MacOS/inkscape
 
 # Cargo
 set -x CARGO_TARGET_DIR "$HOME/.cargo_target"
@@ -132,3 +104,30 @@ set -x ASAN_SYMBOLIZER_PATH  "$HOME/fuchsia/prebuilt/third_party/clang/linux-x64
 set -x LANG en_US.UTF-8
 
 source /Users/dknite/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
+
+set -x EDITOR nvim
+set -x RANGER_LOAD_DEFAULT_RC FALSE
+set -x pager less
+
+if command -v bat > /dev/null
+    set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
+    set -x MANROFFOPT "-c"
+end
+
+# exa for ls
+if command -v exa > /dev/null
+    abbr -a ls exa
+    abbr -a ll exa -l
+    abbr -a la exa -a
+    abbr -a lla exa -la
+end
+
+function diff -d "Fancy diff from Git"
+    if command -v diff-so-fancy > /dev/null
+        command git diff --color $argv | diff-so-fancy | less -r
+    else
+        command git diff --color $argv
+    end
+end
+
+
