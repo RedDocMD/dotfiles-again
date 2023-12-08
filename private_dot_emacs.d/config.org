@@ -28,6 +28,8 @@
 - [[#magit][Magit]]
 - [[#lsp][LSP]]
   - [[#rust][Rust]]
+  - [[#ocaml][OCaml]]
+  - [[#python][Python]]
 - [[#org-mode][ORG Mode]]
   - [[#enabling-toc][Enabling TOC]]
   - [[#basic-config][Basic Config]]
@@ -35,6 +37,10 @@
   - [[#disable-electric-indent-in-org-mode][Disable Electric Indent in Org Mode]]
 - [[#tramp-remote-ssh][Tramp (Remote SSH)]]
 - [[#sudo-edit][Sudo Edit]]
+- [[#direnv][Direnv]]
+- [[#vterm][Vterm]]
+- [[#asciidoc][AsciiDoc]]
+- [[#markdown][Markdown]]
 
 * IMPORTANT PROGRAMS TO LOAD FIRST
 
@@ -159,6 +165,7 @@
     "h f" '(describe-function :wk "Describe function")
     "h v" '(describe-variable :wk "Describe variable")
     "h r r" '((lambda () (interactive) 
+                (load-file "~/.emacs.d/init.el")
                 (load-file "~/.emacs.d/init.el")) :wk "Reload emacs config"))
 )
 #+end_src
@@ -288,7 +295,9 @@
 #+begin_src emacs-lisp
 (use-package neotree
   :config
-  (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+  (setq neo-reset-size-on-open nil)
+  (setq neo-window-fixed-size nil))
 #+end_src
 
 ** Dashboard
@@ -371,8 +380,7 @@
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map))
   :config
-  (setq projectile-project-search-path '(("~/Documents/Arduino" . 2)
-                                         ("~/work" . 4))))
+  (setq projectile-auto-discover nil))
 #+end_src
 
 * Magit
@@ -392,7 +400,9 @@
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
-  :hook (lsp-mode . efs/lsp-mode-setup)
+  :hook
+  (lsp-mode . efs/lsp-mode-setup)
+  (tuareg-mode . lsp)
   :init
   (setq lsp-keymap-prefix "C-c l")
   :config
@@ -466,6 +476,21 @@
 
   ;; comment to disable rustfmt on save
   (setq rustic-format-on-save t))
+#+end_src
+
+** OCaml
+
+#+begin_src emacs-lisp
+(use-package tuareg
+  :ensure)
+#+end_src
+
+** Python
+
+#+begin_src emacs-lisp
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . lsp))
 #+end_src
 
 * ORG Mode
@@ -558,4 +583,42 @@
     (dknite/leader-keys
       "fu" '(sudo-edit-find-file :wk "Sudo find file")
       "fU" '(sudo-edit :wk "Sudo edit file")))
+#+end_src
+
+* Direnv
+
+#+begin_src emacs-lisp
+(use-package direnv
+  :config
+  (direnv-mode))
+#+end_src
+
+* Vterm
+
+#+begin_src emacs-lisp
+(use-package vterm
+  :config
+  (setq vterm-kill-buffer-on-exit t)
+  (dknite/leader-keys
+    "v" '((lambda () (interactive) 
+                  (split-window-vertically)
+                  (other-window 1)
+                  (vterm)) :wk "Open vterm in another window")))
+#+end_src
+
+* AsciiDoc
+
+#+begin_src emacs-lisp
+(use-package adoc-mode
+  :hook (lambda () (buffer-face-mode t)))
+#+end_src
+
+* Markdown
+
+#+begin_src emacs-lisp
+(use-package markdown-mode
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "pandoc")
+  :bind (:map markdown-mode-map
+         ("C-c C-e" . markdown-do)))
 #+end_src

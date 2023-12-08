@@ -130,4 +130,8 @@ function diff -d "Fancy diff from Git"
     end
 end
 
+if command -v direnv > /dev/null
+    direnv hook fish | source
+end
 
+set -x npm_config_prefix "$HOME/.local"
