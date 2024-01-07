@@ -1,0 +1,15 @@
+import = ["~/software/base16-alacritty/colors/base16-gruvbox-dark-hard.toml"]
+
+[env]
+TERM = "xterm-256color"
+WINIT_X11_SCALE_FACTOR = "1"
+
+[font]
+size = 14.0
+
+[font.normal]
+family = "Iosevka Nerd Font"
+style = "Regular"
+
+[scrolling]
+history = 10000

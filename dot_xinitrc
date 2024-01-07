@@ -50,7 +50,7 @@ fi
 
 # xrandr --output "HDMI-A-0" --primary --auto --output "eDP" --right-of "HDMI-A-0" --auto
 feh --bg-fill --recursive --randomize --no-fehbg /usr/share/backgrounds/nordic-wallpapers/
-# nm-applet &
+nm-applet &
 # dropbox &
 dwm-statusbar &> /tmp/dwm-statusbar.log &
 exec dwm

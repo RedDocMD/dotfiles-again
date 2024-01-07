@@ -30,12 +30,12 @@ if command -v nnn > /dev/null
     set -x NNN_PLUG 'f:finder;t:nmount;v:imgview;g:dragdrop'
 end
 
-# exa for ls
-if command -v exa > /dev/null
-    abbr -a ls exa
-    abbr -a ll exa -l
-    abbr -a la exa -a
-    abbr -a lla exa -la
+# eza for ls
+if command -v eza > /dev/null
+    abbr -a ls eza
+    abbr -a ll eza -l
+    abbr -a la eza -a
+    abbr -a lla eza -la
 end
 
 # git abbreviations
