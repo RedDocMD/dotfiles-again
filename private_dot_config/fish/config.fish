@@ -24,6 +24,15 @@ end
 set -x RANGER_LOAD_DEFAULT_RC FALSE
 set -x pager less
 
+# Cargo target dir
+set --local cargo_tgt_dir $HOME/.cargo-target
+if test -d $cargo_tgt_dir
+    set -x CARGO_TARGET_DIR $cargo_tgt_dir
+else
+    mkdir $cargo_tgt_dir
+    set -x CARGO_TARGET_DIR $cargo_tgt_dir
+end
+
 # exa for ls
 if command -v exa > /dev/null
     abbr -a ls exa
@@ -115,3 +124,8 @@ function fidldev
     $FIDLMISC_DIR/fidldev/fidldev.py $argv
 end
 set -x ASAN_SYMBOLIZER_PATH  "$HOME/fuchsia/prebuilt/third_party/clang/linux-x64/bin/llvm-symbolizer"
+
+set -x npm_config_prefix "$HOME/.local"
+
+# opam configuration
+source /home/dknite/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
