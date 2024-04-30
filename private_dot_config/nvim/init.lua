@@ -6,7 +6,6 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
   vim.cmd [[packadd packer.nvim]]
 end
-
 require('packer').startup(function(use)
   -- Package manager
   use 'wbthomason/packer.nvim'
@@ -46,7 +45,7 @@ require('packer').startup(function(use)
   use 'lewis6991/gitsigns.nvim'
 
   -- use 'navarasu/onedark.nvim' -- Theme inspired by Atom
-  use 'chriskempson/base16-vim'
+  use 'tinted-theming/base16-vim'
   use 'nvim-lualine/lualine.nvim'           -- Fancier statusline
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
   use 'numToStr/Comment.nvim'               -- "gc" to comment visual regions/lines
@@ -155,7 +154,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 require('lualine').setup {
   options = {
     icons_enabled = false,
-    theme = 'onedark',
+    theme = 'gruvbox_dark',
     component_separators = '|',
     section_separators = '',
   },
@@ -166,9 +165,8 @@ require('Comment').setup()
 
 -- Enable `lukas-reineke/indent-blankline.nvim`
 -- See `:help indent_blankline.txt`
-require('indent_blankline').setup {
-  char = '┊',
-  show_trailing_blankline_indent = false,
+require('ibl').setup {
+  indent = { char = '┊' },
 }
 
 -- Gitsigns
@@ -341,7 +339,7 @@ require('mason').setup()
 
 -- Enable the following language servers
 -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
-local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'lua_ls', 'gopls', 'zls' }
+local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'gopls', 'zls' }
 local server_settings = {
   rust_analyzer = {
     ['rust-analyzer'] = {
@@ -402,27 +400,6 @@ require('fidget').setup()
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
-
-require('lspconfig').lua_ls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = {
-    Lua = {
-      runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT)
-        version = 'LuaJIT',
-        -- Setup your lua path
-        path = runtime_path,
-      },
-      diagnostics = {
-        globals = { 'vim' },
-      },
-      workspace = { library = vim.api.nvim_get_runtime_file('', true) },
-      -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = { enable = false },
-    },
-  },
-}
 
 -- nvim-cmp setup
 local cmp = require 'cmp'
@@ -490,7 +467,7 @@ vim.o.syntax = "on"
 if vim.g.neovide ~= nil then
   vim.cmd("colorscheme base16-nord")
 else
-  vim.cmd("colorscheme base16-gruvbox-dark-hard")
+  vim.cmd("colorscheme base16-gruvbox-light-soft")
 end
 vim.g.base16_shell_path = "~/software/base16-shell/scripts/"
 vim.cmd("hi Normal ctermbg=NONE")

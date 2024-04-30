@@ -29,6 +29,7 @@ end
 if command -v nnn > /dev/null
     set -x NNN_PLUG 'f:finder;t:nmount;v:imgview;g:dragdrop'
 end
+set -x BAT_THEME gruvbox-light
 
 # eza for ls
 if command -v eza > /dev/null
