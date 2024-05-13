@@ -99,7 +99,7 @@ set -x FIDLMISC_DIR "$HOME/software/fidl-misc"
 function fidldev
     $FIDLMISC_DIR/fidldev/fidldev.py $argv
 end
-set -x ASAN_SYMBOLIZER_PATH  "$HOME/fuchsia/prebuilt/third_party/clang/linux-x64/bin/llvm-symbolizer"
+set -x ASAN_SYMBOLIZER_PATH  "/opt/homebrew/Cellar/llvm/17.0.6_1/bin/llvm-symbolizer"
 
 set -x LANG en_US.UTF-8
 
