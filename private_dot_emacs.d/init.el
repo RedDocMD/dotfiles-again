@@ -18,7 +18,7 @@
 ;; Main fonts
 (set-face-attribute 'default nil
   :font "Iosevka Curly"
-  :height 150
+  :height 130
   :weight 'medium)
 (set-face-attribute 'variable-pitch nil
   :font "Noto Sans"
@@ -26,7 +26,7 @@
   :weight 'medium)
 (set-face-attribute 'fixed-pitch nil
   :font "Iosevka Curly"
-  :height 150
+  :height 130
   :weight 'medium)
 
 ;; Make comments italics
@@ -223,6 +223,14 @@
   (info-initialize)
   (add-to-list 'Info-directory-list
                "/Users/dknite/pkgs/magit/docs"))
+
+(require 'sudo-edit)
+(dknite/leader-keys
+  "fu" '(sudo-edit-find-file :wk "Sudo find file")
+  "fU" '(sudo-edit :wk "Sudo edit file"))
+
+(require 'envrc)
+(add-hook 'after-init-hook 'envrc-global-mode)
 
 (require 'company)
 

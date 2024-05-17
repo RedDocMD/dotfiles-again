@@ -15,7 +15,8 @@ function fish_title
 end
 
 # Set environment variables
-set -x EDITOR nvim
+# set -x EDITOR nvim
+set -x EDITOR "emacsclient -c"
 if command -v bat > /dev/null
     set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
     set -x MANROFFOPT "-c"
@@ -29,7 +30,7 @@ end
 if command -v nnn > /dev/null
     set -x NNN_PLUG 'f:finder;t:nmount;v:imgview;g:dragdrop'
 end
-set -x BAT_THEME gruvbox-light
+set -x BAT_THEME gruvbox-dark
 
 # eza for ls
 if command -v eza > /dev/null
@@ -58,7 +59,7 @@ function diff -d "Fancy diff from Git"
 end
 
 
-abbr -a e nvim
+abbr -a e "emacsclient -c"
 abbr -a m emacsclient -c -a 'emacs'
 
 # Dotfile repo
@@ -158,3 +159,8 @@ if status is-login
 end
 
 set -x npm_config_prefix "$HOME/.local"
+
+# Direnv
+if command -v direnv > /dev/null
+    direnv hook fish | source
+end

@@ -467,7 +467,7 @@ vim.o.syntax = "on"
 if vim.g.neovide ~= nil then
   vim.cmd("colorscheme base16-nord")
 else
-  vim.cmd("colorscheme base16-gruvbox-light-soft")
+  vim.cmd("colorscheme base16-gruvbox-dark-hard")
 end
 vim.g.base16_shell_path = "~/software/base16-shell/scripts/"
 vim.cmd("hi Normal ctermbg=NONE")
