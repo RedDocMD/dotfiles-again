@@ -97,5 +97,3 @@ BASE16_SHELL="$HOME/software/base16-shell/"
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
-
-source /home/dknite/.config/broot/launcher/bash/br

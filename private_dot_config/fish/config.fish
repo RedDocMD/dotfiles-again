@@ -33,12 +33,12 @@ else
     set -x CARGO_TARGET_DIR $cargo_tgt_dir
 end
 
-# exa for ls
-if command -v exa > /dev/null
-    abbr -a ls exa
-    abbr -a ll exa -l
-    abbr -a la exa -a
-    abbr -a lla exa -la
+# eza for ls
+if command -v eza > /dev/null
+    abbr -a ls eza
+    abbr -a ll eza -l
+    abbr -a la eza -a
+    abbr -a lla eza -la
 end
 
 # source autojump
