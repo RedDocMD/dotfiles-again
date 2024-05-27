@@ -15,7 +15,6 @@ function fish_title
 end
 
 # Set environment variables
-# set -x EDITOR nvim
 set -x EDITOR "emacsclient -c"
 if command -v bat > /dev/null
     set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
@@ -24,6 +23,7 @@ end
 set -x RANGER_LOAD_DEFAULT_RC FALSE
 set -x pager less
 set -x NEOVIDE_MULTIGRID true
+
 if command -v chromium > /dev/null
     set -x CHROME_EXECUTABLE chromium
 end
@@ -58,9 +58,9 @@ function diff -d "Fancy diff from Git"
     end
 end
 
-
-abbr -a e "emacsclient -c"
-abbr -a m emacsclient -c -a 'emacs'
+function e -d "run editor"
+  emacsclient -q -c $argv &
+end
 
 # Dotfile repo
 alias config '/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
@@ -164,3 +164,6 @@ set -x npm_config_prefix "$HOME/.local"
 if command -v direnv > /dev/null
     direnv hook fish | source
 end
+
+# To prevent white screen on Java apps
+set -x _JAVA_AWT_WM_NONREPARENTING 1

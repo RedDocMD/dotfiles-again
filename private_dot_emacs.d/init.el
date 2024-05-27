@@ -18,22 +18,24 @@
 ;; Main fonts
 (set-face-attribute 'default nil
   :font "Iosevka Curly"
-  :height 130
-  :weight 'medium)
+  :height 135
+  :weight 'normal)
 (set-face-attribute 'variable-pitch nil
   :font "Noto Sans"
   :height 150
   :weight 'medium)
 (set-face-attribute 'fixed-pitch nil
   :font "Iosevka Curly"
-  :height 130
-  :weight 'medium)
+  :height 135
+  :weight 'normal)
 
 ;; Make comments italics
 (set-face-attribute 'font-lock-comment-face nil
   :slant 'italic)
 (set-face-attribute 'font-lock-keyword-face nil
 		    :slant 'italic)
+
+(add-to-list 'default-frame-alist '(font . "Iosevka Curly"))
 
 ;; Nerd Icons
 (require 'nerd-icons)
