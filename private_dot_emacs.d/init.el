@@ -4,9 +4,9 @@
     (normal-top-level-add-subdirs-to-load-path)))
 
 
+
 (require 'base16-theme)
 (load-theme 'base16-gruvbox-dark-hard t)
-
 
 (setq-default
  indent-tabs-mode nil
@@ -14,6 +14,8 @@
  tab-width 2
  indent-line-function 'insert-tab)
 ;; (electric-indent-mode -1)
+
+(setq ring-bell-function (lambda () ()))
 
 ;; Main fonts
 (set-face-attribute 'default nil
@@ -28,6 +30,11 @@
   :font "Iosevka Curly"
   :height 135
   :weight 'normal)
+
+(require 'all-the-icons)
+(require 'all-the-icons-dired)
+(setq all-the-icons-dired-monochrome nil)
+(add-hook 'dired-mode-hook (lambda () (all-the-icons-dired-mode t)))
 
 ;; Make comments italics
 (set-face-attribute 'font-lock-comment-face nil
@@ -130,7 +137,8 @@
   "s g f" '(counsel-git :wk "Find file in git directory")
   "s r" '(counsel-grep :wk "Ripgrep in directory")
   "s g r" '(counsel-git-grep :wk "Ripgrep in git directory")
-  "s b" '(counsel-buffer-or-recentf :wk "Switch buffer"))
+  "s b" '(counsel-buffer-or-recentf :wk "Switch buffer")
+  "s h" '(counsel-tramp :wk "Counsel for Tramp"))
 
 (dknite/leader-keys
   "." '(find-file :wk "Find file")
@@ -183,16 +191,6 @@
     which-key-allow-imprecise-window-fit t
     which-key-separator " -> ")
 
-(when (display-graphic-p)
-  (require 'all-the-icons)
-  (require 'all-the-icons-dired)
-  (setq all-the-icons-dired-monochrome nil)
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
-
-
-;; Don't pass the --dired option to ls on Mac
-(setq dired-use-ls-dired nil)
-
 (require 'doom-modeline)
 (doom-modeline-mode 1)
 (setq doom-modeline-height 30
@@ -216,8 +214,7 @@
                         (projects . 5)))
 
 (require 'neotree)
-(setq neo-theme
- (if (display-graphic-p) 'icons 'arrow))
+(setq neo-theme 'icons)
 
 
 (require 'magit)
@@ -241,6 +238,9 @@
 (ivy-mode)
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
+
+(setq tramp-default-method "ssh")
+(require 'counsel-tramp)
 
 ;; Rust stuff
 (require 'rustic)
