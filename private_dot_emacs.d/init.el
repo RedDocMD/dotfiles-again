@@ -61,6 +61,7 @@
                 term-mode-hook
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
+(setq display-line-numbers 'relative)
 
 (setq backup-directory-alist '((".*" . "~/.emacsdid")))
 
@@ -79,6 +80,14 @@
   (evil-collection-init))
 
 (require 'evil-escape)
+
+(require 'evil-surround)
+(global-evil-surround-mode 1)
+
+(defun meain/evil-yank-advice (orig-fn beg end &rest args)
+  (pulse-momentary-highlight-region beg end)
+  (apply orig-fn beg end args))
+(advice-add 'evil-yank :around 'meain/evil-yank-advice)
 
 (require 'fzf)
 (setq fzf/executable "fzf"
