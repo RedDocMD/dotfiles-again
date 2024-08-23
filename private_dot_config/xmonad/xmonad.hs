@@ -194,7 +194,7 @@ myEventHook = mconcat
     , handleEventHook def
     ]
 
-myConfig = def { borderWidth        = 2
+myConfig = def { borderWidth        = 0
            , terminal           = myTerminal
            , modMask            = myModMask
            , normalBorderColor  = "#282828"

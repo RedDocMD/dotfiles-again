@@ -47,10 +47,10 @@ require('packer').startup(function(use)
 
   -- use 'navarasu/onedark.nvim' -- Theme inspired by Atom
   use 'chriskempson/base16-vim'
-  use 'nvim-lualine/lualine.nvim'           -- Fancier statusline
+  use 'nvim-lualine/lualine.nvim' -- Fancier statusline
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
-  use 'numToStr/Comment.nvim'               -- "gc" to comment visual regions/lines
-  use 'tpope/vim-sleuth'                    -- Detect tabstop and shiftwidth automatically
+  use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
+  use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
 
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -468,7 +468,7 @@ cmp.setup {
 }
 
 -- Map other stuff
-vim.keymap.set({ 'n', 'v', 's', 'x', 'o', '!', 'i', 'l', 'c', 't' }, 'fd', '<Esc>')
+vim.keymap.set({ 'n', 'v', 's', 'x', 'o', '!', 'i', 'l', 'c', 't' }, '<C-k>', '<Esc>')
 vim.keymap.set('n', '<Leader>s', ':w<cr>')
 vim.keymap.set('n', 'H', '0')
 vim.keymap.set('n', 'L', '$')

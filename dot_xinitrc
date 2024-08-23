@@ -41,6 +41,7 @@ xrandr --output "HDMI-0" --primary --auto --output "eDP-1-1" --right-of "HDMI-0"
 # picom &
 # nm-applet &
 command -v dropbox &>/dev/null && dropbox &
+xinput set-prop 'ETPS/2 Elantech Touchpad' 'libinput Tapping Enabled' 1
 #
 # exec awesome
 exec xmonad
