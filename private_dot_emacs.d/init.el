@@ -1,13 +1,54 @@
-;; Setup package paths
-(let ((default-directory  "/home/dknite/.emacs.d/pkgs/"))
-  (if (file-directory-p default-directory)
-    (normal-top-level-add-subdirs-to-load-path)))
+;; Setup elpaca
+(defvar elpaca-installer-version 0.8)
+(defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
+(defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
+(defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
+(defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
+                              :ref nil :depth 1
+                              :files (:defaults "elpaca-test.el" (:exclude "extensions"))
+                              :build (:not elpaca--activate-package)))
+(let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+       (build (expand-file-name "elpaca/" elpaca-builds-directory))
+       (order (cdr elpaca-order))
+       (default-directory repo))
+  (add-to-list 'load-path (if (file-exists-p build) build repo))
+  (unless (file-exists-p repo)
+    (make-directory repo t)
+    (when (< emacs-major-version 28) (require 'subr-x))
+    (condition-case-unless-debug err
+        (if-let* ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+                  ((zerop (apply #'call-process `("git" nil ,buffer t "clone"
+                                                  ,@(when-let* ((depth (plist-get order :depth)))
+                                                      (list (format "--depth=%d" depth) "--no-single-branch"))
+                                                  ,(plist-get order :repo) ,repo))))
+                  ((zerop (call-process "git" nil buffer t "checkout"
+                                        (or (plist-get order :ref) "--"))))
+                  (emacs (concat invocation-directory invocation-name))
+                  ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
+                                        "--eval" "(byte-recompile-directory \".\" 0 'force)")))
+                  ((require 'elpaca))
+                  ((elpaca-generate-autoloads "elpaca" repo)))
+            (progn (message "%s" (buffer-string)) (kill-buffer buffer))
+          (error "%s" (with-current-buffer buffer (buffer-string))))
+      ((error) (warn "%s" err) (delete-directory repo 'recursive))))
+  (unless (require 'elpaca-autoloads nil t)
+    (require 'elpaca)
+    (elpaca-generate-autoloads "elpaca" repo)
+    (load "./elpaca-autoloads")))
+(add-hook 'after-init-hook #'elpaca-process-queues)
+(elpaca `(,@elpaca-order))
 
+;; Install use-package support
+(elpaca elpaca-use-package
+  ;; Enable use-package :ensure support for Elpaca.
+  (elpaca-use-package-mode))
 
+(use-package base16-theme
+  :ensure t
+  :config
+  (load-theme 'base16-gruvbox-dark-hard t))
 
-(require 'base16-theme)
-(load-theme 'base16-gruvbox-dark-hard t)
-
+;; Indentation
 (setq-default
  indent-tabs-mode nil
  tab-stop-list (number-sequence 2 200 2)
@@ -31,22 +72,8 @@
   :height 135
   :weight 'normal)
 
-(require 'all-the-icons)
-(require 'all-the-icons-dired)
-(setq all-the-icons-dired-monochrome nil)
-(add-hook 'dired-mode-hook (lambda () (all-the-icons-dired-mode t)))
-
 ;; Make comments italics
-(set-face-attribute 'font-lock-comment-face nil
-  :slant 'italic)
-(set-face-attribute 'font-lock-keyword-face nil
-		    :slant 'italic)
-
-(add-to-list 'default-frame-alist '(font . "Iosevka Curly"))
-
-;; Nerd Icons
-(require 'nerd-icons)
-(setq nerd-icons-fornt-family "Symbols Nerd Font")
+(set-fringe-mode 10)
 
 ;; Disable stuff I don't like
 (tool-bar-mode -1)
@@ -65,44 +92,59 @@
 
 (setq backup-directory-alist '((".*" . "~/.emacsdid")))
 
+(use-package fzf
+  :ensure t
+  :config
+  (setq fzf/executable "fzf"
+        fzf/args "-x --color bw --print-query --margin=1,0 --no-hscroll"
+        fzf/git-grep-args "-i --line-number %s"
+        fzf/grep-command "rg --no-heading -nH"
+        fzf/position-bottom t
+        fzf/window-height 15))
 
+(use-package evil
+  :ensure t
+  :init
+  (setq evil-want-keybinding nil)
+  :config
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (setq evil-vsplit-window-right t)
+  (setq evil-split-window-below t)
+  (evil-mode 1))
 
-;; Evil and related stuff
-(setq evil-want-integration t)
-(setq evil-want-keybinding nil)
-(setq evil-vsplit-window-right t)
-(setq evil-split-window-below t)
-(require 'evil)
-(evil-mode 1)
-
-(when (require 'evil-collection nil t)
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
   (setq evil-collection-mode-list '(dashboard dired ibuffer))
   (evil-collection-init))
 
-(require 'evil-escape)
+(use-package evil-escape
+   :after evil
+   :ensure t
+   :config
+   (evil-escape-mode))
 
-(require 'evil-surround)
-(global-evil-surround-mode 1)
+
+(use-package evil-surround
+  :after evil
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
 
 (defun meain/evil-yank-advice (orig-fn beg end &rest args)
   (pulse-momentary-highlight-region beg end)
   (apply orig-fn beg end args))
 (advice-add 'evil-yank :around 'meain/evil-yank-advice)
 
-(require 'fzf)
-(setq fzf/executable "fzf"
-      fzf/args "-x --color bw --print-query --margin=1,0 --no-hscroll"
-      fzf/git-grep-args "-i --line-number %s"
-      fzf/grep-command "rg --no-heading -nH"
-      fzf/position-bottom t
-      fzf/window-height 15)
+(use-package general
+  :after evil
+  :ensure t
+  :config
+  (general-evil-setup)
 
-
-;; General keybindings
-(require 'general)
-(general-evil-setup)
-
-(general-define-key
+  (general-define-key
     :states '(normal visual)
     "C-u" 'evil-scroll-up
     "C-b" 'neotree-toggle
@@ -111,160 +153,173 @@
     "M-x" 'counsel-M-x
     "C-s" 'swiper)
 
-(general-define-key
- :keymaps 'eglot-mode-map
-    "M-j" 'counsel-imenu
-    "M-/" 'xref-find-definitions
-    "M-?" 'xref-find-references
-    "C-c C-c h" 'eldoc
-    "C-c C-c l" 'flymake-show-buffer-diagnostics
-    "C-c C-c a" 'eglot-code-actions
-    "C-c C-c r" 'eglot-rename
-    "C-c C-c q" 'eglot-reconnect
-    "C-c C-c Q" 'eglot-shutdown
-    "C-c C-c C-f" 'eglot-format)
+  (general-define-key
+      :states '(insert visual)
+      "C-k" 'evil-escape)
 
-(general-define-key
- :keymaps 'flymake-mode-map
- "M-n" 'flymake-goto-next-error
- "M-p" 'flymake-goto-prev-error)
+  (general-create-definer dknite/leader-keys
+    :states '(normal insert visual emacs)
+    :keymaps 'override
+    :prefix "SPC" ;; set leader
+    :global-prefix "M-SPC") ;; access leader in insert mode
 
-(general-define-key
-    :states '(insert visual)
-    "C-k" 'evil-escape)
+  (dknite/leader-keys
+    "s s" '(save-buffer :wk "Save buffer")
+    "s f" '(counsel-fzf :wk "Find file in directory")
+    "s g f" '(counsel-git :wk "Find file in git directory")
+    "s r" '(counsel-rg :wk "Ripgrep in directory")
+    "s g r" '(counsel-git-grep :wk "Ripgrep in git directory")
+    "s b" '(counsel-buffer-or-recentf :wk "Switch buffer")
+    "s h" '(counsel-tramp :wk "Counsel for Tramp"))
 
-(general-create-definer dknite/leader-keys
-  :states '(normal insert visual emacs)
-  :keymaps 'override
-  :prefix "SPC" ;; set leader
-  :global-prefix "M-SPC") ;; access leader in insert mode
+  (dknite/leader-keys
+    "." '(find-file :wk "Find file")
+    "f r" '(counsel-recentf :wk "Find recent files")
+    "f c" '((lambda () (interactive) (find-file "~/.emacs.d/init.el")) :wk "Edit emacs config"))
 
-(dknite/leader-keys
-  "s s" '(save-buffer :wk "Save buffer")
-  "s f" '(counsel-find-file :wk "Find file in directory")
-  "s d f" '(counsel-fzf :wk "Find file in directory with fzf")
-  "s g f" '(counsel-git :wk "Find file in git directory")
-  "s r" '(counsel-grep :wk "Ripgrep in directory")
-  "s g r" '(counsel-git-grep :wk "Ripgrep in git directory")
-  "s b" '(counsel-buffer-or-recentf :wk "Switch buffer")
-  "s h" '(counsel-tramp :wk "Counsel for Tramp"))
+  (dknite/leader-keys
+    "e" '(:ignore t :wk "Evaluate")
+    "e b" '(eval-buffer :wk "Evaluate elisp in buffer")
+    "e d" '(eval-defun :wk "Evaluate defun containing or after point")
+    "e e" '(eval-expression :wk "Evaluate elisp expression")
+    "e l" '(eval-last-sexp :wk "Evaluate elisp expression before point")
+    "e r" '(eval-region :wk "Evaluate elisp in region"))
 
-(dknite/leader-keys
-  "." '(find-file :wk "Find file")
-  "f r" '(counsel-recentf :wk "Find recent files")
-  "f c" '((lambda () (interactive) (find-file "~/.emacs.d/init.el")) :wk "Edit emacs config"))
-
-(dknite/leader-keys
-  "e" '(:ignore t :wk "Evaluate")
-  "e b" '(eval-buffer :wk "Evaluate elisp in buffer")
-  "e d" '(eval-defun :wk "Evaluate defun containing or after point")
-  "e e" '(eval-expression :wk "Evaluate elisp expression")
-  "e l" '(eval-last-sexp :wk "Evaluate elisp expression before point")
-  "e r" '(eval-region :wk "Evaluate elisp in region"))
-
-(dknite/leader-keys
-  "h" '(:ignore t :wk "Help")
-  "h f" '(describe-function :wk "Describe function")
-  "h v" '(describe-variable :wk "Describe variable")
-  "h r r" '((lambda () (interactive) 
-              (load-file "~/.emacs.d/init.el")
-              (load-file "~/.emacs.d/init.el")) :wk "Reload emacs config"))
+  (dknite/leader-keys
+    "h" '(:ignore t :wk "Help")
+    "h f" '(describe-function :wk "Describe function")
+    "h v" '(describe-variable :wk "Describe variable")
+    "h r r" '((lambda () (interactive) 
+                (load-file "~/.emacs.d/init.el")
+                (load-file "~/.emacs.d/init.el")) :wk "Reload emacs config")))
 
 
+(use-package rainbow-delimiters
+  :ensure t
+  :hook
+  (org-mode . rainbow-delimiters-mode)
+  (prog-mode . rainbow-delimiters-mode))
 
-;; GUI Tweaks
-(require 'rainbow-delimiters)
-(add-hook 'org-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(use-package hl-todo
+  :ensure t
+  :config
+  (setq hl-todo-highlight-punctuation ":"
+          hl-todo-keyword-faces
+          '(("TODO"   warning  bold)
+            ("FIXME"  error bold)))
+  :hook
+  (org-mode . hl-todo-mode)
+  (prog-mode . hl-todo-mode))
 
-(require 'hl-todo)
-(add-hook 'org-mode-hook 'hl-todo-mode)
-(add-hook 'prog-mode-hook 'hl-todo-mode)
-(setq hl-todo-highlight-punctuation ":"
-        hl-todo-keyword-faces
-        '(("TODO"   warning  bold)
-          ("FIXME"  error bold)))
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode 1)
+  (setq which-key-side-window-location 'bottom
+      which-key-sort-order #'which-key-key-order-alpha
+      which-key-sort-uppercase-first nil
+      which-key-add-column-padding 1
+      which-key-max-display-columns nil
+      which-key-min-display-lines 6
+      which-key-side-window-slot -10
+      which-key-side-window-max-height 0.25
+      which-key-idle-delay 0.8
+      which-key-max-description-length 25
+      which-key-allow-imprecise-window-fit t
+      which-key-separator " -> "))
 
-(require 'which-key)
-(which-key-mode 1)
-(setq which-key-side-window-location 'bottom
-    which-key-sort-order #'which-key-key-order-alpha
-    which-key-sort-uppercase-first nil
-    which-key-add-column-padding 1
-    which-key-max-display-columns nil
-    which-key-min-display-lines 6
-    which-key-side-window-slot -10
-    which-key-side-window-max-height 0.25
-    which-key-idle-delay 0.8
-    which-key-max-description-length 25
-    which-key-allow-imprecise-window-fit t
-    which-key-separator " -> ")
+(use-package doom-modeline
+  :ensure t
+  :config
+  (doom-modeline-mode 1)
+  (setq doom-modeline-height 30
+        doom-modeline-bar-width 5
+        doom-modeline-persp-name t
+        doom-modeline-persp-icon t))
 
-(require 'doom-modeline)
-(doom-modeline-mode 1)
-(setq doom-modeline-height 30
-      doom-modeline-bar-width 5
-      doom-modeline-persp-name t
-      doom-modeline-persp-icon t)
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook)
+  (setq dashboard-banner-logo-title "Enter the Emacs")
+  (setq dashboard-startup-banner 'logo)
+  (setq dashboard-center-content t)
+  (setq dashboard-show-shortcuts nil)
+  (setq dashboard-display-icons-p t)
+  (setq dashboard-icon-type 'nerd-icons)
+  ;; (setq dashboard-set-heading-icons t)
+  ;; (setq dashboard-set-file-icons t)
+  (setq dashboard-items '((recents . 5) 
+                          (projects . 5)))
+  :hook
+  (elpaca-after-init . dashboard-insert-startupify-lists)
+  (elpaca-after-init . dashboard-initialize))
 
-(require 'dashboard)
-(add-hook 'elpaca-after-init-hook #'dashboard-insert-startupify-lists)
-(add-hook 'elpaca-after-init-hook #'dashboard-initialize)
-(dashboard-setup-startup-hook)
-(setq dashboard-banner-logo-title "Enter the Emacs")
-(setq dashboard-startup-banner 'logo)
-(setq dashboard-center-content t)
-(setq dashboard-show-shortcuts nil)
-(setq dashboard-display-icons-p t)
-(setq dashboard-icon-type 'nerd-icons)
-;; (setq dashboard-set-heading-icons t)
-;; (setq dashboard-set-file-icons t)
-(setq dashboard-items '((recents . 5) 
-                        (projects . 5)))
+(use-package neotree
+  :ensure t
+  :config
+  (setq neo-theme 'icons))
 
-(require 'neotree)
-(setq neo-theme 'icons)
+(use-package magit
+  :ensure t
+  :custom
+  (setq magit-git-executable "/usr/bin/git"))
 
+(use-package company :ensure t)
 
-(require 'magit)
-(with-eval-after-load 'info
-  (info-initialize)
-  (add-to-list 'Info-directory-list
-               "/Users/dknite/pkgs/magit/docs"))
+(use-package ivy
+  :ensure t
+  :config
+  (ivy-mode)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t))
+(use-package counsel :ensure t)
 
-(require 'sudo-edit)
-(dknite/leader-keys
-  "fu" '(sudo-edit-find-file :wk "Sudo find file")
-  "fU" '(sudo-edit :wk "Sudo edit file"))
+(use-package lsp-haskell
+  :ensure t
+  :config
+  (setq lsp-haskell-formatting-provider "stylish-haskell"))
 
-(require 'envrc)
-(add-hook 'after-init-hook 'envrc-global-mode)
+(use-package lsp-mode
+  :ensure t
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :hook ((c-mode . lsp)
+         (c++-mode . lsp)
+         (haskell-mode . lsp)
+         (rust-mode . lsp)
+         (tuareg-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp
+  :bind-keymap ("C-c l" . lsp-command-map))
 
-(require 'company)
+(use-package lsp-ui 
+  :ensure t
+  :commands lsp-ui-mode
+  :config
+  (setq lsp-ui-doc-show-with-cursor nil))
+(use-package lsp-ivy
+  :ensure t
+  :commands lsp-ivy-workspace-symbol)
 
-(require 'ivy)
-(require 'counsel)
-(ivy-mode)
-(setq ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
+;; Lsp Mode, Language support
+(use-package rustic
+  :ensure t
+  :config
+  (setq rustic-lsp-setup-p nil))
+;; Haskell mode
+(use-package haskell-mode :ensure t)
+(use-package tuareg :ensure t)
 
-(setq tramp-default-method "ssh")
-(require 'counsel-tramp)
-
-;; Rust stuff
-(require 'rustic)
-(setq rustic-format-on-save t)
-(setq rustic-lsp-client 'eglot)
-;; (add-hook 'eglot-managed-mode-hook (lambda () (flymake-mode -1)))
-(add-hook 'eglot-managed-mode-hook
-          (lambda ()
-            (eldoc-mode -1)
-            (company-mode 1)))
-
-;; OCaml
-(require 'tuareg)
-
-;; Other languages
-(add-hook 'c-mode-hook 'eglot-ensure)
-(add-hook 'c++-mode-hook 'eglot-ensure)
-(add-hook 'tuareg-mode-hook 'eglot-ensure)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages '(magit)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

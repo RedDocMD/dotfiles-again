@@ -334,7 +334,8 @@
     "editor.defaultFormatter": "ziglang.vscode-zig"
   },
   "C_Cpp.intelliSenseEngine": "disabled",
-  "workbench.colorTheme": "Material Theme Ocean High Contrast",
+  "workbench.colorTheme": "Gruvbox Dark Hard",
   "editor.fontSize": 15,
   "clangd.path": "/home/dknite/.config/Code/User/globalStorage/llvm-vs-code-extensions.vscode-clangd/install/17.0.3/clangd_17.0.3/bin/clangd",
+  "tabnine.experimentalAutoImports": true,
 }

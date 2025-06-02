@@ -1,8 +1,6 @@
 -- Install packerl/f
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
-local is_bootstrap = false
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  is_bootstrap = true
+local is_bootstrap = false if vim.fn.empty(vim.fn.glob(install_path)) > 0 then is_bootstrap = true
   vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
   vim.cmd [[packadd packer.nvim]]
 end
@@ -219,7 +217,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'python', 'rust', 'typescript', 'zig' },
+  ensure_installed = { 'c', 'cpp', 'go', 'python', 'rust', 'typescript', 'zig', 'ocaml', 'ocaml_interface' },
 
   highlight = { enable = true },
   indent = { enable = true },
@@ -338,8 +336,7 @@ vim.keymap.set('n', '<leader>n', ':Format<cr>')
 require('mason').setup()
 
 -- Enable the following language servers
--- Feel free to add/remove any LSPs that you want here. They will automatically be installed
-local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'gopls', 'zls' }
+local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'gopls', 'zls', 'ocamllsp', 'hls' }
 local server_settings = {
   rust_analyzer = {
     ['rust-analyzer'] = {
@@ -369,27 +366,40 @@ local server_settings = {
       staticcheck = true,
     },
   },
+  hls = {
+    haskell = {
+      cabalFormattingProvider = "cabalfmt",
+      formattingProvider = "stylish-haskell"
+    }
+  }
 }
 
 -- Ensure the servers above are installed
-require('mason-lspconfig').setup {
-  ensure_installed = servers,
-}
+require('mason-lspconfig').setup {}
 
 -- nvim-cmp supports additional completion capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
+local server_cmds = {
+  hls = { "haskell-language-server-wrapper", "--lsp" }
+}
+
 local lspconfig = require('lspconfig')
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
+  local config = {
     on_attach = on_attach,
     capabilities = capabilities,
     settings = server_settings[lsp],
   }
+  local cmd = server_cmds[lsp]
+  if cmd ~= nil then
+    config[cmd] = cmd
+  end
+  lspconfig[lsp].setup(config)
 end
 
-vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+-- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
 
 -- Turn on lsp status information
 require('fidget').setup()

@@ -1,4 +1,4 @@
 Host Collosus
-  HostName 10.8.0.3
+  HostName 10.8.0.2
   User dknite
   LocalForward 9901 localhost:5901

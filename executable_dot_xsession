@@ -4,7 +4,9 @@ if [ -f $HOME/.Xmodmap ]; then
     xmodmap $HOME/.Xmodmap
 fi
 
-# xrandr --output "HDMI-A-0" --primary --auto --output "eDP" --right-of "HDMI-A-0" --auto
+# EXTERNAL_MONITOR="HDMI-A-0"
+EXTERNAL_MONITOR="DisplayPort-1"
+xrandr --output ${EXTERNAL_MONITOR} --primary --auto --output "eDP" --right-of ${EXTERNAL_MONITOR} --auto
 feh --bg-fill --recursive --randomize --no-fehbg /usr/share/backgrounds/nordic-wallpapers/
 nm-applet &
 dropbox start

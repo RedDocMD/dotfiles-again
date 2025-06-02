@@ -15,7 +15,7 @@ function fish_title
 end
 
 # Set environment variables
-set -x EDITOR "emacsclient -c"
+set -x EDITOR nvim
 if command -v bat > /dev/null
     set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
     set -x MANROFFOPT "-c"
@@ -58,9 +58,7 @@ function diff -d "Fancy diff from Git"
     end
 end
 
-function e -d "run editor"
-  emacsclient -q -c $argv &
-end
+abbr -a e nvim
 
 # Dotfile repo
 alias config '/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
