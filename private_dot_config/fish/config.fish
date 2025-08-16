@@ -83,6 +83,7 @@ set -px PATH $HOME/.ghcup/bin
 set -px PATH $HOME/software/flutter/bin
 set -px PATH $HOME/.emacs.d/bin
 set -px PATH $HOME/.dotnet
+set -px PATH $HOME/software/scala3-3.7.2-x86_64-pc-linux/bin
 
 # Homebrew
 set -x HOMEBREW_PREFIX "/home/dknite/.linuxbrew"

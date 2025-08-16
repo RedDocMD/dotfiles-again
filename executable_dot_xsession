@@ -9,10 +9,12 @@ EXTERNAL_MONITOR="DisplayPort-1"
 xrandr --output ${EXTERNAL_MONITOR} --primary --auto --output "eDP" --right-of ${EXTERNAL_MONITOR} --auto
 feh --bg-fill --recursive --randomize --no-fehbg /usr/share/backgrounds/nordic-wallpapers/
 nm-applet &
+export XDG_CURRENT_DESKTOP="Unity"
 dropbox start
 emacs --fg-daemon &
 dwm-statusbar &> /tmp/dwm-statusbar.log &
 exec dwm
+# exec xmonad-exe
 # polybar external &
 # exec leftwm
 # exec startlxqt
