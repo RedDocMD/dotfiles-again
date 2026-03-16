@@ -1,5 +1,5 @@
 ;; Setup elpaca
-(defvar elpaca-installer-version 0.8)
+(defvar elpaca-installer-version 0.11)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
 (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
@@ -60,7 +60,7 @@
 
 ;; Main fonts
 (set-face-attribute 'default nil
-  :font "Iosevka Curly"
+  :font "FiraCode Nerd Font"
   :height 135
   :weight 'normal)
 (set-face-attribute 'variable-pitch nil
@@ -68,7 +68,7 @@
   :height 150
   :weight 'medium)
 (set-face-attribute 'fixed-pitch nil
-  :font "Iosevka Curly"
+  :font "FiraCode Nerd Font"
   :height 135
   :weight 'normal)
 
@@ -261,7 +261,7 @@
   (setq neo-theme 'icons))
 
 (use-package magit
-  :ensure t
+  :ensure (:wait t)
   :custom
   (setq magit-git-executable "/usr/bin/git"))
 
@@ -274,6 +274,7 @@
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t))
 (use-package counsel :ensure t)
+(use-package counsel-tramp :ensure t)
 
 (use-package lsp-haskell
   :ensure t

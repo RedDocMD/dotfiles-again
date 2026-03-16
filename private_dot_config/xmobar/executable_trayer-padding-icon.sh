@@ -33,7 +33,7 @@ static char * trayer_pad_xpm[] = {
 EOF
 }
 
-PANEL_NAME="stalonetray"
+PANEL_NAME="trayer"
 
 # Width of the trayer window
 width=$(xprop -name ${PANEL_NAME} | grep 'program specified minimum size' | cut -d ' ' -f 5)

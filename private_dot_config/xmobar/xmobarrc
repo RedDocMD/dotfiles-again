@@ -1,7 +1,7 @@
 Config { overrideRedirect = False
-       , font     = "xft:Noto Sans Mono:size=11:antialias=true:bold"
-       , additionalFonts = [ "xft:Font Awesome 6 Free Solid:pixelsize=15"
-                           , "xft:Font Awesome 6 Brands:pixelsize=15"
+       , font     = "Noto Sans Mono Bold 11"
+       , additionalFonts = [ "Font Awesome 6 Free Solid Regular 15px"
+                           , "Font Awesome 6 Brands Regular 15px"
                            ]
        , bgColor      = "#282828"
        , fgColor      = "#ebdbb2"

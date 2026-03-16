@@ -15,8 +15,27 @@ local tmux_keys = {
 	{key="h", mods="LEADER", action=wezterm.action{ActivatePaneDirection="Left"}},
 }
 
+local misc_keys = {
+  {
+    key = 'L',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action_callback(function(window, pane)
+      local overrides = window:get_config_overrides() or {}
+      if not overrides.harfbuzz_features then
+        overrides.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
+      else
+        overrides.harfbuzz_features = nil
+      end
+      window:set_config_overrides(overrides)
+    end),
+  },
+}
+
 local keys = {}
 for _, key in ipairs(tmux_keys) do
+	table.insert(keys, key)
+end
+for _, key in ipairs(misc_keys) do
 	table.insert(keys, key)
 end
 for i = 1, 9 do
@@ -25,8 +44,9 @@ for i = 1, 9 do
 end
 
 return {
-	color_scheme = "Gruvbox Dark",
-	font = wezterm.font("Iosevka Term"),
+	color_scheme = "Gruvbox dark, hard (base16)",
+	font = wezterm.font("Iosevka Term Curly", { weight = "Medium", stretch = "Expanded" }),
+	font_size = 13.5,
 	leader = {key="a", mods="CTRL", timeout_milliseconds=400},
 	keys = keys,
 	scrollback_lines = 100000,
@@ -47,4 +67,6 @@ return {
 			format = "$0",
 		}
 	},
+	tab_bar_at_bottom = true,
+	hide_tab_bar_if_only_one_tab = true,
 }
