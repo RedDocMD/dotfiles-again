@@ -11,6 +11,7 @@ import           System.Taffybar.Information.Memory
 import           System.Taffybar.SimpleConfig
 import           System.Taffybar.Widget
 import           System.Taffybar.Widget.Generic.PollingGraph
+import           System.Taffybar.Widget.WirePlumber
 import qualified System.Taffybar.Widget.Workspaces           as Workspaces
 
 main :: IO ()
@@ -96,6 +97,7 @@ exampleTaffybarConfig =
       net = networkGraphNew netCfg Nothing
       clock = textClockNewWith def { clockFormatString = "%a %d %b, %I:%M %p" }
       windowsW = windowsNew def { getActiveWindowIconPixbuf = Nothing }
+      audio = wirePlumberNew
       -- See https://github.com/taffybar/gtk-sni-tray#statusnotifierwatcher
       -- for a better way to set up the sni tray
       tray = sniTrayThatStartsWatcherEvenThoughThisIsABadWayToDoIt
@@ -110,7 +112,8 @@ exampleTaffybarConfig =
                   tray,
                   cpu,
                   mem,
-                  net
+                  net,
+                  audio
                 ],
             barPosition = Bottom,
             barPadding = 2,

@@ -43,6 +43,29 @@
   ;; Enable use-package :ensure support for Elpaca.
   (elpaca-use-package-mode))
 
+(elpaca
+    (cond-let
+      :host github
+      :repo "tarsius/cond-let"
+      :ref "21b9e9835756ff5cd1acb971cf9eb56fff671c8b"))
+
+(elpaca-process-queues)
+(elpaca-wait)
+
+(use-package compat
+  :ensure t
+  :after cond-let)
+
+(use-package transient
+  :ensure t
+  :after compat)
+
+(use-package magit
+  :ensure t
+  :after transient
+  :custom
+  (setq magit-git-executable "/usr/bin/git"))
+
 (use-package base16-theme
   :ensure t
   :config
@@ -259,11 +282,6 @@
   :ensure t
   :config
   (setq neo-theme 'icons))
-
-(use-package magit
-  :ensure (:wait t)
-  :custom
-  (setq magit-git-executable "/usr/bin/git"))
 
 (use-package company :ensure t)
 

@@ -11,6 +11,7 @@ xrandr --output ${EXTERNAL_MONITOR} --primary --auto --output "eDP" --right-of $
 # feh --bg-fill --recursive --randomize --no-fehbg /usr/share/backgrounds/nordic-wallpapers/
 status-notifier-watcher &
 nm-applet --indicator &
+blueman-applet &
 export XDG_CURRENT_DESKTOP="Unity"
 dropbox start
 emacs --fg-daemon &

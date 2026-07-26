@@ -487,5 +487,7 @@ vim.fn.Base16hi("Comment", vim.g.base16_gui09, "", vim.g.base16_cterm09, "", "",
 vim.fn.Base16hi("LspSignatureActiveParameter", vim.g.base16_gui05, vim.g.base16_gui03, vim.g.base16_cterm05,
   vim.g.base16_cterm03, "bold", "")
 
+vim.filetype.add({extension = {tpp = "cpp"}})
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
