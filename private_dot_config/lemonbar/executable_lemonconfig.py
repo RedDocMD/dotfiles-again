@@ -61,6 +61,15 @@ def do_time():
     pprint('%{F#c2c0c0}', now_str, '%{F-}')
 
 
+def do_volume():
+    vol_out = subprocess.check_output(r"pactl get-sink-volume @DEFAULT_SINK@ | head -n1 | sed -r 's/.* ([0-9]+)%.*/\1/'", shell=True, executable="/bin/bash").decode().strip()
+    mute_out = subprocess.check_output(r"pactl get-sink-mute @DEFAULT_SINK@ | sed -r 's/Mute: (.*)$/\1/'", shell=True, executable="/bin/bash").decode().strip()
+    if mute_out == 'yes':
+        vol_str = 'Mute'
+    else:
+        vol_str = f'{vol_out}%% '
+    pprint('%{F#c2c0c0}', 'Vol: ', vol_str, '%{F-}')
+
 def bar():
     # Left aligned stuff
     pprint('%{O10}')
@@ -74,6 +83,7 @@ def bar():
 
     # Right aligned stuff
     pprint('%{r}')
+    do_volume()
     pprint('%{O10}')
 
     # Print newline

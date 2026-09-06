@@ -4,11 +4,11 @@
 
 # terminal emulator
 super + shift + Return
-	alacritty
+    wezterm	
 
 # start ranger
 super + a
-    alacritty -e nnn
+    wezterm -e nnn
 
 # lock screen
 ctrl + alt + l
@@ -16,17 +16,29 @@ ctrl + alt + l
 
 # toggle ulauncher
 super + p
-    ulauncher-toggle
+    rofi -show drun -font "Iosevka Term 12" -icon-theme "Papirus" -show-icons -theme "dracula"
 
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd
+
+super + r
+	feh --bg-fill --recursive --randomize --no-fehbg /usr/share/backgrounds/nordic-wallpapers/
+
+Print
+	sleep 0.2; scrot -s -F ~/Pictures/%Y-%m-%d-%T-screenshot.png
+
+shift + Print
+	sleep 0.2; scrot -s -e 'xclip -selection clipboard -t image/png -i $f'
 
 XF86AudioRaiseVolume
 	~/.config/sxhkd/scripts/volume.sh +5%
 
 XF86AudioLowerVolume
 	~/.config/sxhkd/scripts/volume.sh -5%
+
+XF86AudioMute
+	~/.config/sxhkd/scripts/mute.sh
 
 #
 # bspwm hotkeys

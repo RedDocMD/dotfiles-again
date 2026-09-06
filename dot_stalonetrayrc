@@ -13,7 +13,7 @@
 
 # background <color>         # color can be specified as an HTML hex triplet or
                              # as a name from rgb.txt, note that '#' must be quoted
-background "#282829"
+background "#18191a"
 
 # decorations <decspec>      # set trays window decorations; possible values for
                              # decspec are: all, title, border, none
@@ -34,7 +34,8 @@ fuzzy_edges 0
 
 # geometry <geometry>        # tray's geometry in standard X notation; width and
                              # height are specified in slot_size multiples
-geometry 4x1+2460+0
+geometry 5x1+2440+0
+monitor 1
 
 # grow_gravity <gravity>     # one of N, S, E, W, NW, NE, SW, SE; tray will grow
                              # in the direction opposite to one specified by
@@ -103,15 +104,15 @@ skip_taskbar true
 sticky true
 
 # tint_color <color>         # set tinting color
-tint_color white
+tint_color black
 
 # tint_level <level>         # set tinting level; level ranges from 0 (disabled)
                              # to 255
-tint_level 0
+tint_level 150
 
 # transparent [<bool>]       # whether to use root-transparency (background
                              # image must be set with Esetroot or compatible utility)
-transparent false
+transparent true
 
 # vertical [<bool>]          # whether to use vertical layout (horisontal layout
                              # is used by default)
